@@ -26,7 +26,9 @@ option(GLFW_BUILD_EXAMPLES OFF)
 option(GLFW_BUILD_TESTS OFF)
 option(GLFW_BUILD_DOCS OFF)
 
-FetchContent_MakeAvailable(glfw)
+if(NOT EMSCRIPTEN)
+    FetchContent_MakeAvailable(glfw)
+endif()
 
 # add_subdirectory(${glfw_SOURCE_DIR} ${glfw_BINARY_DIR})
 # message(${glfw_SOURCE_DIR})

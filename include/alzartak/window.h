@@ -170,8 +170,8 @@ inline Window::Window(int32 width, int32 height, const char* title)
         exit(1);
     }
 
-    const GLFWvidmode* vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 #ifndef __EMSCRIPTEN__
+    const GLFWvidmode* vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
     glfwSetWindowMonitor(
         glfw_window, NULL, (vidmode->width / 2) - (width / 2), (vidmode->height / 2) - (height / 2), width, height, GLFW_DONT_CARE
     );
