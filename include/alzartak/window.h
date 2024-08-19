@@ -1,17 +1,15 @@
 #pragma once
 
 #include "input.h"
+#include "util.h"
 
 namespace alzartak
 {
 
-class Window
+class Window : NonCopyable
 {
 public:
     ~Window() noexcept;
-
-    Window(const Window&) = delete;
-    void operator=(const Window&) = delete;
 
     void SetFramebufferSizeChangeCallback(const std::function<void(int32, int32)>& callback);
     Vec2 GetWindowSize() const;

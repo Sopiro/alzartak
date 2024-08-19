@@ -18,6 +18,9 @@
 #include <format>
 #include <functional>
 #include <iostream>
+#include <numeric>
+#include <span>
+#include <unordered_map>
 
 #include "wak/bounding_box.h"
 #include "wak/hash.h"
