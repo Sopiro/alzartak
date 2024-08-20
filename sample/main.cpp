@@ -15,10 +15,14 @@ float delta_time = 0.0f;
 Window* window;
 Renderer* renderer;
 Camera2D* camera;
+// Camera3D* camera;
+
+bool is2d = true;
 
 void UpdateProjectionMatrix()
 {
     Vec2 extents = window->GetWindowSize() / scale;
+    WakNotUsed(extents);
     Mat4 proj_matrix = Mat4::Orth(-extents.x / 2.0f, extents.x / 2.0f, -extents.y / 2.0f, extents.y / 2.0f, 0.0f, 1.0f);
     // Mat4 proj_matrix = Mat4::Perspective(DegToRad(71.0f), 16.0f / 9.0f, 0.0f, 1000.0f);
 
@@ -29,7 +33,9 @@ void Init()
 {
     window = Window::Init(1280, 720, "alzartak");
     renderer = new Renderer;
+
     camera = new Camera2D;
+    // camera = new Camera3D;
 
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
@@ -53,41 +59,10 @@ void Update()
     window->BeginFrame(clear_color);
     // ImGui::ShowDemoWindow();
 
-    if (Input::IsKeyPressed(GLFW_KEY_SPACE))
-    {
-        std::cout << 1 / delta_time << std::endl;
-    }
-
     // Camera control
     {
-        if (Input::GetMouseScroll().y != 0)
-        {
-            camera->scale *= Input::GetMouseScroll().y < 0 ? 1.1f : 1.0f / 1.1f;
-            camera->scale.x = Clamp(camera->scale.x, 0.1f, max_float);
-            camera->scale.y = Clamp(camera->scale.y, 0.1f, max_float);
-        }
-
-        static bool camera_move = false;
-        static Vec2 cursor_start, camera_start;
-
-        if (!camera_move && Input::IsMousePressed(GLFW_MOUSE_BUTTON_RIGHT))
-        {
-            camera_move = true;
-            cursor_start = Input::GetMousePosition();
-            camera_start = camera->position;
-        }
-        else if (Input::IsMouseReleased(GLFW_MOUSE_BUTTON_RIGHT))
-        {
-            camera_move = false;
-        }
-
-        if (camera_move)
-        {
-            Vec2 dist = Input::GetMousePosition() - cursor_start;
-            dist.x *= -camera->scale.x / scale;
-            dist.y *= camera->scale.y / scale;
-            camera->position = camera_start + dist;
-        }
+        camera->UpdateInput(scale);
+        // camera->UpdateInput(delta_time);
     }
 
     // Rendering

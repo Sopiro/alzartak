@@ -15,6 +15,9 @@ public:
     Vec2 GetWindowSize() const;
     int32 GetRefreshRate() const;
 
+    bool GetCursorHidden();
+    void SetCursorHidden(bool hidden);
+
     bool ShouldClose() const;
     void BeginFrame(const Vec4& clear_color) const;
     void EndFrame() const;
@@ -256,6 +259,24 @@ inline Window::~Window() noexcept
 inline void Window::SetFramebufferSizeChangeCallback(const std::function<void(int32 width, int32 height)>& callback)
 {
     framebuffer_size_change_callback = callback;
+}
+
+inline bool Window::GetCursorHidden()
+{
+    return glfwGetInputMode(glfw_window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED;
+}
+
+inline void Window::SetCursorHidden(bool hidden)
+{
+    if (hidden)
+    {
+        glfwSetCursorPos(glfw_window, width / 2.0f, height / 2.0f);
+        glfwSetInputMode(glfw_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    }
+    else
+    {
+        glfwSetInputMode(glfw_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
 }
 
 inline bool Window::ShouldClose() const
