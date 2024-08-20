@@ -8,9 +8,11 @@
 
 using namespace alzartak;
 
-Window* window = nullptr;
 Vec4 clear_color{ 190.0f / 255.0f, 220.0f / 255.0f, 230.0f / 255.0f, 1.0f };
-float scale = 100.0f;
+const float scale = 100.0f;
+float delta_time = 0.0f;
+
+Window* window;
 Renderer* renderer;
 Camera2D* camera;
 
@@ -29,6 +31,10 @@ void Init()
     renderer = new Renderer;
     camera = new Camera2D;
 
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
+
     UpdateProjectionMatrix();
     window->SetFramebufferSizeChangeCallback([&](int32 width, int32 height) -> void {
         glViewport(0, 0, width, height);
@@ -42,17 +48,17 @@ void Terminate()
     delete renderer;
 }
 
-void MainLoop()
+void Update()
 {
     window->BeginFrame(clear_color);
     // ImGui::ShowDemoWindow();
 
     if (Input::IsKeyPressed(GLFW_KEY_SPACE))
     {
-        std::cout << "wakha" << std::endl;
+        std::cout << 1 / delta_time << std::endl;
     }
 
-    // Screen grabbing
+    // Camera control
     {
         if (Input::GetMouseScroll().y != 0)
         {
@@ -89,7 +95,7 @@ void MainLoop()
     renderer->SetPointSize(5);
     renderer->SetLineWidth(3);
     renderer->DrawLine({ 0, 0 }, { 1, 1 }, Vec4(1, 0, 1, 1));
-    renderer->DrawTriangle({ 0, 0 }, { 1, 0 }, { 0.5, 1.0 }, Vec4(0, 1, 0, 1));
+    renderer->DrawTriangle({ { 0, 0 }, Vec4(1, 0, 0, 1) }, { { 1, 0 }, Vec4(0, 1, 0, 1) }, { { 0.5, 1.0 }, Vec4(0, 0, 1, 1) });
     renderer->DrawPoint({ -1, -1 }, Vec4(1, 0, 0, 1));
     renderer->FlushAll();
 
@@ -106,11 +112,24 @@ int main()
     Init();
 
 #ifdef __EMSCRIPTEN__
-    emscripten_set_main_loop(MainLoop, 0, 1);
+    emscripten_set_main_loop(Update, 0, 1);
 #else
+    auto last_time = std::chrono::steady_clock::now();
+    const float target_frame_time = 1.0f / window->GetRefreshRate();
+
     while (!window->ShouldClose())
     {
-        MainLoop();
+        auto current_time = std::chrono::steady_clock::now();
+        std::chrono::duration<float> duration = current_time - last_time;
+        float elapsed_time = duration.count();
+        last_time = current_time;
+
+        delta_time += elapsed_time;
+        if (delta_time > target_frame_time)
+        {
+            Update();
+            delta_time = 0;
+        }
     }
 #endif
 
