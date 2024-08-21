@@ -25,7 +25,7 @@ void UpdateProjectionMatrix()
     WakNotUsed(extents);
     if (mode)
     {
-        Mat4 proj_matrix = Mat4::Orth(-extents.x / 2.0f, extents.x / 2.0f, -extents.y / 2.0f, extents.y / 2.0f, 0.0f, 1.0f);
+        Mat4 proj_matrix = Mat4::Orth(-extents.x / 2.0f, extents.x / 2.0f, -extents.y / 2.0f, extents.y / 2.0f, -1000, 1000);
         renderer->SetProjectionMatrix(proj_matrix);
     }
     else
@@ -93,10 +93,18 @@ void Update()
 
     // Rendering
     renderer->SetPointSize(5);
-    renderer->SetLineWidth(3);
-    renderer->DrawLine({ 0, 0 }, { 1, 1 }, Vec4(1, 0, 1, 1));
-    renderer->DrawTriangle({ { 0, 0 }, Vec4(1, 0, 0, 1) }, { { 1, 0 }, Vec4(0, 1, 0, 1) }, { { 0.5, 1.0 }, Vec4(0, 0, 1, 1) });
+    renderer->SetLineWidth(2);
+    renderer->DrawLine({ 3, 0, -3 }, { 2, 1, -5 }, Vec4(1, 0, 1, 1));
+    renderer->DrawTriangle(
+        { { 0, 0, 0 }, Vec4(1, 0, 0, 1) }, { { 1, 0, -0.5f }, Vec4(0, 1, 0, 1) }, { { 0.5, 1.0, -1.0f }, Vec4(0, 0, 1, 1) }
+    );
     renderer->DrawPoint({ -1, -1 }, Vec4(1, 0, 0, 1));
+
+    Vec3 m = Vec3(-2, 1, -1);
+    AABB a(m, m + Vec3(0.7f));
+
+    renderer->DrawAABB(a, Vec4(1, 1, 1, 0.2f));
+
     renderer->FlushAll();
 
     window->EndFrame();

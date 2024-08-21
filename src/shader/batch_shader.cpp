@@ -9,7 +9,7 @@ BatchShader::BatchShader()
           R"(
         #version 100
 
-        attribute vec2 pos;
+        attribute vec3 pos;
         attribute vec4 color;
 
         varying vec4 out_color;
@@ -23,7 +23,7 @@ BatchShader::BatchShader()
 
            out_color = color;
            gl_PointSize = 5.0;
-           gl_Position = mvp * vec4(pos, 0.0, 1.0);
+           gl_Position = mvp * vec4(pos, 1.0);
         }
     )",
           // Fragment shader

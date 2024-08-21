@@ -18,8 +18,8 @@ Renderer::Renderer()
     glBindVertexArray(VAO);
     {
         glBindBuffer(GL_ARRAY_BUFFER, pVBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(Vec2) * max_vertex_count, nullptr, GL_DYNAMIC_DRAW);
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vec2), 0);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Vec3) * max_vertex_count, nullptr, GL_DYNAMIC_DRAW);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vec3), 0);
         glEnableVertexAttribArray(0);
 
         glBindBuffer(GL_ARRAY_BUFFER, cVBO);
@@ -57,7 +57,7 @@ void Renderer::FlushPoints()
     glBindVertexArray(VAO);
     {
         glBindBuffer(GL_ARRAY_BUFFER, pVBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vec2) * point_count, points.data());
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vec3) * point_count, points.data());
 
         glBindBuffer(GL_ARRAY_BUFFER, cVBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vec4) * point_count, point_colors.data());
@@ -76,7 +76,7 @@ void Renderer::FlushLines()
     glBindVertexArray(VAO);
     {
         glBindBuffer(GL_ARRAY_BUFFER, pVBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vec2) * line_count, lines.data());
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vec3) * line_count, lines.data());
 
         glBindBuffer(GL_ARRAY_BUFFER, cVBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vec4) * line_count, line_colors.data());
@@ -95,7 +95,7 @@ void Renderer::FlushTriangles()
     glBindVertexArray(VAO);
     {
         glBindBuffer(GL_ARRAY_BUFFER, pVBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vec2) * triangle_count, triangles.data());
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vec3) * triangle_count, triangles.data());
 
         glBindBuffer(GL_ARRAY_BUFFER, cVBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vec4) * triangle_count, triangle_colors.data());

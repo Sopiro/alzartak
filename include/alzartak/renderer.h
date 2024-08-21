@@ -8,7 +8,7 @@ namespace alzartak
 
 struct Vertex
 {
-    Vec2 point;
+    Vec3 point;
     Vec4 color;
 };
 
@@ -40,11 +40,18 @@ public:
 
     void DrawPoint(const Vertex& v);
     void DrawPoint(const Vec2& p, const Vec4& color = color_black);
+    void DrawPoint(const Vec3& p, const Vec4& color = color_black);
+
     void DrawLine(const Vertex& v1, const Vertex& v2);
     void DrawLine(const Vec2& p1, const Vec2& p2, const Vec4& color = color_black);
+    void DrawLine(const Vec3& p1, const Vec3& p2, const Vec4& color = color_black);
+
     void DrawTriangle(const Vertex& v1, const Vertex& v2, const Vertex& v3);
     void DrawTriangle(const Vec2& p1, const Vec2& p2, const Vec2& p3, const Vec4& color = color_black);
-    void DrawAABB(const AABB2& aabb);
+    void DrawTriangle(const Vec3& p1, const Vec3& p2, const Vec3& p3, const Vec4& color = color_black);
+
+    void DrawAABB(const AABB2& aabb, const Vec4& color = color_black);
+    void DrawAABB(const AABB3& aabb, const Vec4& color = color_black);
 
     void FlushAll();
     void FlushPoints();
@@ -56,15 +63,15 @@ public:
 private:
     friend class BatchShader;
 
-    std::array<Vec2, max_vertex_count> points;
+    std::array<Vec3, max_vertex_count> points;
     std::array<Vec4, max_vertex_count> point_colors;
     int32 point_count;
 
-    std::array<Vec2, max_vertex_count> lines;
+    std::array<Vec3, max_vertex_count> lines;
     std::array<Vec4, max_vertex_count> line_colors;
     int32 line_count;
 
-    std::array<Vec2, max_vertex_count> triangles;
+    std::array<Vec3, max_vertex_count> triangles;
     std::array<Vec4, max_vertex_count> triangle_colors;
     int32 triangle_count;
 
@@ -91,9 +98,9 @@ inline void Renderer::SetLineWidth(float line_width) const
 
 inline void Renderer::FlushAll()
 {
-    if (triangle_count > 0) FlushTriangles();
-    if (line_count > 0) FlushLines();
     if (point_count > 0) FlushPoints();
+    if (line_count > 0) FlushLines();
+    if (triangle_count > 0) FlushTriangles();
 }
 
 inline void Renderer::SetProjectionMatrix(const Mat4& proj_matrix)
@@ -122,6 +129,11 @@ inline void Renderer::DrawPoint(const Vertex& v)
 
 inline void Renderer::DrawPoint(const Vec2& p, const Vec4& color)
 {
+    DrawPoint(Vec3(p, 0), color);
+}
+
+inline void Renderer::DrawPoint(const Vec3& p, const Vec4& color)
+{
     if (point_count == max_vertex_count)
     {
         FlushAll();
@@ -148,6 +160,11 @@ inline void Renderer::DrawLine(const Vertex& v1, const Vertex& v2)
 }
 
 inline void Renderer::DrawLine(const Vec2& p1, const Vec2& p2, const Vec4& color)
+{
+    DrawLine(Vec3(p1, 0), Vec3(p2, 0), color);
+}
+
+inline void Renderer::DrawLine(const Vec3& p1, const Vec3& p2, const Vec4& color)
 {
     if (line_count == max_vertex_count)
     {
@@ -182,6 +199,11 @@ inline void Renderer::DrawTriangle(const Vertex& v1, const Vertex& v2, const Ver
 
 inline void Renderer::DrawTriangle(const Vec2& p1, const Vec2& p2, const Vec2& p3, const Vec4& color)
 {
+    DrawTriangle(Vec3(p1, 0), Vec3(p2, 0), Vec3(p3, 0), color);
+}
+
+inline void Renderer::DrawTriangle(const Vec3& p1, const Vec3& p2, const Vec3& p3, const Vec4& color)
+{
     if (triangle_count == max_vertex_count)
     {
         FlushAll();
@@ -198,16 +220,52 @@ inline void Renderer::DrawTriangle(const Vec2& p1, const Vec2& p2, const Vec2& p
     ++triangle_count;
 }
 
-inline void Renderer::DrawAABB(const AABB2& aabb)
+inline void Renderer::DrawAABB(const AABB2& aabb, const Vec4& color)
 {
     Vec2 br{ aabb.max.x, aabb.min.y };
     Vec2 tl{ aabb.min.x, aabb.max.y };
-    DrawLine(aabb.min, br);
-    DrawLine(br, aabb.max);
-    DrawLine(aabb.max, tl);
-    DrawLine(tl, aabb.min);
+
+    DrawLine(aabb.min, br, color);
+    DrawLine(br, aabb.max, color);
+    DrawLine(aabb.max, tl, color);
+    DrawLine(tl, aabb.min, color);
 }
 
+inline void Renderer::DrawAABB(const AABB3& aabb, const Vec4& color)
+{
+    Vec3 min = aabb.min;
+    Vec3 max = aabb.max;
+
+    Vec3 p0{ min.x, min.y, min.z };
+    Vec3 p1{ max.x, min.y, min.z };
+    Vec3 p2{ max.x, max.y, min.z };
+    Vec3 p3{ min.x, max.y, min.z };
+
+    Vec3 p4{ min.x, min.y, max.z };
+    Vec3 p5{ max.x, min.y, max.z };
+    Vec3 p6{ max.x, max.y, max.z };
+    Vec3 p7{ min.x, max.y, max.z };
+
+    // back
+    DrawLine(p0, p1, color);
+    DrawLine(p1, p2, color);
+    DrawLine(p2, p3, color);
+    DrawLine(p3, p0, color);
+
+    // front
+    DrawLine(p4, p5, color);
+    DrawLine(p5, p6, color);
+    DrawLine(p6, p7, color);
+    DrawLine(p7, p4, color);
+
+    // left
+    DrawLine(p0, p4, color);
+    DrawLine(p3, p7, color);
+
+    // right
+    DrawLine(p1, p5, color);
+    DrawLine(p2, p6, color);
+}
 // Viewport space -> NDC -> world spcae
 inline Vec3 Renderer::Pick(const Vec2& screen_pos) const
 {
