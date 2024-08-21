@@ -54,13 +54,11 @@ int main()
 
     while (!window->ShouldClose())
     {
-        window->BeginFrame({ 0.7, 0.8, 0.9, 1 }); // Clear window
+        window->BeginFrame(Color::light_blue);
+
+        camera.UpdateInput(scale);
 
         renderer.SetViewMatrix(camera.GetCameraMatrix());
-
-        if (Input::IsKeyPressed(GLFW_KEY_SPACE))
-            std::cout << "Hello alzartak" << std::endl;
-
         renderer.DrawLine({ 0, 0 }, { 1, 1 });
         renderer.FlushAll();
         
