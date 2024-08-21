@@ -8,7 +8,6 @@
 
 using namespace alzartak;
 
-Vec4 clear_color{ 190.0f / 255.0f, 220.0f / 255.0f, 230.0f / 255.0f, 1.0f };
 const float scale = 100.0f;
 float delta_time = 1.0f / 60.0f;
 
@@ -63,7 +62,7 @@ void Terminate()
 
 void Update()
 {
-    window->BeginFrame(clear_color);
+    window->BeginFrame(Color::light_blue);
     // ImGui::ShowDemoWindow();
 
     ImGui::SetNextWindowPos({ 4, 4 }, ImGuiCond_Once, { 0.0f, 0.0f });

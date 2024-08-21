@@ -1,6 +1,7 @@
 #pragma once
 
 #include "batch_shader.h"
+#include "colors.h"
 #include "window.h"
 
 namespace alzartak
@@ -20,10 +21,6 @@ class Renderer : NonCopyable
     static constexpr inline int32 color_count = 10;
     static inline std::array<Vec4, color_count> colors;
 
-    static constexpr inline Vec4 color_transparent{ 0.0f, 0.0f, 0.0f, 0.0f };
-    static constexpr inline Vec4 color_white{ 1.0f, 1.0f, 1.0f, 0.8f };
-    static constexpr inline Vec4 color_black{ 0.0f, 0.0f, 0.0f, 1.0f };
-
     static constexpr inline int32 max_vertex_count = 1024 * 3;
     static_assert(max_vertex_count % 2 == 0);
     static_assert(max_vertex_count % 3 == 0);
@@ -39,19 +36,19 @@ public:
     void SetViewMatrix(const Mat4& view_matrix);
 
     void DrawPoint(const Vertex& v);
-    void DrawPoint(const Vec2& p, const Vec4& color = color_black);
-    void DrawPoint(const Vec3& p, const Vec4& color = color_black);
+    void DrawPoint(const Vec2& p, const Vec4& color = Vec4(Color::black, 0.8f));
+    void DrawPoint(const Vec3& p, const Vec4& color = Vec4(Color::black, 0.8f));
 
     void DrawLine(const Vertex& v1, const Vertex& v2);
-    void DrawLine(const Vec2& p1, const Vec2& p2, const Vec4& color = color_black);
-    void DrawLine(const Vec3& p1, const Vec3& p2, const Vec4& color = color_black);
+    void DrawLine(const Vec2& p1, const Vec2& p2, const Vec4& color = Vec4(Color::black, 0.8f));
+    void DrawLine(const Vec3& p1, const Vec3& p2, const Vec4& color = Vec4(Color::black, 0.8f));
 
     void DrawTriangle(const Vertex& v1, const Vertex& v2, const Vertex& v3);
-    void DrawTriangle(const Vec2& p1, const Vec2& p2, const Vec2& p3, const Vec4& color = color_black);
-    void DrawTriangle(const Vec3& p1, const Vec3& p2, const Vec3& p3, const Vec4& color = color_black);
+    void DrawTriangle(const Vec2& p1, const Vec2& p2, const Vec2& p3, const Vec4& color = Vec4(Color::black, 0.8f));
+    void DrawTriangle(const Vec3& p1, const Vec3& p2, const Vec3& p3, const Vec4& color = Vec4(Color::black, 0.8f));
 
-    void DrawAABB(const AABB2& aabb, const Vec4& color = color_black);
-    void DrawAABB(const AABB3& aabb, const Vec4& color = color_black);
+    void DrawAABB(const AABB2& aabb, const Vec4& color = Vec4(Color::black, 0.8f));
+    void DrawAABB(const AABB3& aabb, const Vec4& color = Vec4(Color::black, 0.8f));
 
     void FlushAll();
     void FlushPoints();

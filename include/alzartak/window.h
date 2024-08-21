@@ -19,7 +19,7 @@ public:
     void SetCursorHidden(bool hidden);
 
     bool ShouldClose() const;
-    void BeginFrame(const Vec4& clear_color) const;
+    void BeginFrame(const Point3& clear_color) const;
     void EndFrame() const;
 
     static Window* Get();
@@ -283,7 +283,7 @@ inline bool Window::ShouldClose() const
     return glfwWindowShouldClose(glfw_window);
 }
 
-inline void Window::BeginFrame(const Vec4& clear_color) const
+inline void Window::BeginFrame(const Point3& clear_color) const
 {
     glfwPollEvents();
 
@@ -292,7 +292,7 @@ inline void Window::BeginFrame(const Vec4& clear_color) const
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+    glClearColor(clear_color.x, clear_color.y, clear_color.z, 1);
     glClear(GL_COLOR_BUFFER_BIT);
     // glViewport(0, 0, Window::Width, Window::Height);
 }
