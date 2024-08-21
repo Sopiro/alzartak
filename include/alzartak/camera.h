@@ -66,11 +66,10 @@ struct Camera3D
     Point3 rotation{ 0 };
     Point3 scale{ 1 };
 
+    Vec3 velocity{ 0 };
     float speed = 0.2f;
     float sensitivity = 0.1f;
-    float damping = 0.97f;
-
-    Vec3 velocity;
+    float damping = 10.0f;
 
     void UpdateInput(float dt)
     {
@@ -96,6 +95,8 @@ struct Camera3D
             rotation.y -= ma.x * DegToRad(sensitivity);
             rotation.x -= ma.y * DegToRad(sensitivity);
         }
+
+        // Neck constraints
         if (RadToDeg(rotation.x) > 89) rotation.x = DegToRad(89);
         if (RadToDeg(rotation.x) < -89) rotation.x = DegToRad(-89);
 
@@ -107,7 +108,7 @@ struct Camera3D
         velocity.y += a.y * speed;
 
         position += velocity * dt;
-        velocity *= std::exp(-damping * dt) * 0.9f;
+        velocity *= std::exp(-damping * dt);
     }
 
     Mat4 GetCameraMatrix() const

@@ -13,7 +13,7 @@ public:
     void operator=(const NonCopyable&) = delete;
 };
 
-Vec3 rgb2hsl(float r, float g, float b);
-Vec3 hsl2rgb(float h, float s, float l);
+Vec3 RGBtoHSL(Vec3 rgb);
+Vec3 HSLtoRGB(Vec3 hsl);
 
 } // namespace alzartak

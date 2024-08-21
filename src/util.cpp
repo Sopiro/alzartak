@@ -11,34 +11,32 @@ namespace alzartak
  * Assumes r, g, and b are contained in the set [0, 255] and
  * returns HSL in the set [0, 1].
  */
-Vec3 rgb2hsl(float r, float g, float b)
+Vec3 RGBtoHSL(Vec3 rgb)
 {
-    r /= 255.0f;
-    g /= 255.0f;
-    b /= 255.0f;
+    rgb /= 255;
 
-    float max = std::max(std::max(r, g), b);
-    float min = std::min(std::min(r, g), b);
+    float max = std::max({ rgb.x, rgb.y, rgb.z });
+    float min = std::min({ rgb.x, rgb.y, rgb.z });
 
-    Vec3 res{ (max + min) / 2.0f };
+    Vec3 res{ (max + min) / 2 };
 
     if (max == min)
     {
         // achromatic
-        res.x = 0.0f;
-        res.y = 0.0f;
+        res.x = 0;
+        res.y = 0;
     }
     else
     {
         float d = max - min;
-        res.x = (res.z > 0.5f) ? d / (2.0f - max - min) : d / (max + min);
+        res.x = (res.z > 0.5f) ? d / (2 - max - min) : d / (max + min);
 
-        if (max == r)
-            res.x = (g - b) / d + (g < b ? 6 : 0);
-        else if (max == g)
-            res.x = (b - r) / d + 2;
-        else if (max == b)
-            res.x = (r - g) / d + 4;
+        if (max == rgb.x)
+            res.x = (rgb.y - rgb.z) / d + (rgb.y < rgb.z ? 6 : 0);
+        else if (max == rgb.y)
+            res.x = (rgb.z - rgb.x) / d + 2;
+        else if (max == rgb.z)
+            res.x = (rgb.x - rgb.y) / d + 4;
 
         res.x /= 6;
     }
@@ -52,17 +50,17 @@ Vec3 rgb2hsl(float r, float g, float b)
  */
 static float hue2rgb(float p, float q, float t)
 {
-    if (t < 0.0f)
-        t += 1.0f;
-    else if (t > 1.0f)
-        t -= 1.0f;
+    if (t < 0)
+        t += 1;
+    else if (t > 1)
+        t -= 1;
 
     if (t < 1.0f / 6.0f)
-        return p + (q - p) * 6.0f * t;
+        return p + (q - p) * 6 * t;
     else if (t < 1.0f / 2.0f)
         return q;
     else if (t < 2.0f / 3.0f)
-        return p + (q - p) * (2.0f / 3.0f - t) * 6.0f;
+        return p + (q - p) * (2.0f / 3.0f - t) * 6;
 
     return p;
 }
@@ -73,21 +71,21 @@ static float hue2rgb(float p, float q, float t)
  * Assumes h, s, and l are contained in the set [0, 1] and
  * returns RGB in the set [0, 1].
  */
-Vec3 hsl2rgb(float h, float s, float l)
+Vec3 HSLtoRGB(Vec3 hsl)
 {
     Vec3 res;
 
-    if (s == 0.0f)
+    if (hsl.y == 0)
     {
-        res.x = res.y = res.z = l; // achromatic
+        res.x = res.y = res.z = hsl.z; // achromatic
     }
     else
     {
-        float q = l < 0.5f ? l * (1.0f + s) : l + s - l * s;
-        float p = 2.0f * l - q;
-        res.x = hue2rgb(p, q, h + 1.0f / 3.0f);
-        res.y = hue2rgb(p, q, h);
-        res.z = hue2rgb(p, q, h - 1.0f / 3.0f);
+        float q = hsl.z < 0.5f ? hsl.z * (1 + hsl.y) : hsl.z + hsl.y - hsl.z * hsl.y;
+        float p = 2 * hsl.z - q;
+        res.x = hue2rgb(p, q, hsl.x + 1.0f / 3.0f);
+        res.y = hue2rgb(p, q, hsl.x);
+        res.z = hue2rgb(p, q, hsl.x - 1.0f / 3.0f);
     }
 
     return res;

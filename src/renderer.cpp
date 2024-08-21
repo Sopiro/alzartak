@@ -34,7 +34,7 @@ Renderer::Renderer()
         constexpr float stride = 360.0f / color_count;
         for (int32 i = 0; i < color_count; ++i)
         {
-            Vec3 rgb = hsl2rgb(i * stride / 360.0f, 1.0f, 0.75f);
+            Vec3 rgb = HSLtoRGB({ i * stride / 360.0f, 1.0f, 0.75f });
 
             colors[i].Set(rgb.x, rgb.y, rgb.z, 0.85f);
         }

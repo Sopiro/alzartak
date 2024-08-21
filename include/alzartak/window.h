@@ -35,14 +35,13 @@ private:
     int32 refresh_rate;
     std::function<void(int32, int32)> framebuffer_size_change_callback = nullptr;
 
+    static void ErrorCallback(int32 error, const char* description);
     static void OnFramebufferSizeChange(GLFWwindow* glfw_window, int32 width, int32 height);
     static void OnKeyEvent(GLFWwindow* glfw_window, int32 key, int32 scancode, int32 action, int32 mods);
     static void OnMouseButton(GLFWwindow* glfw_window, int32 button, int32 action, int32 modifier);
     static void OnCharEvent(GLFWwindow* glfw_window, uint32 ch);
     static void OnCursorPos(GLFWwindow* glfw_window, double xpos, double ypos);
     static void OnScroll(GLFWwindow* glfw_window, double xoffset, double yoffset);
-
-    static void glfw_error_callback(int32 error, const char* description);
 };
 
 inline Window* Window::Get()
@@ -133,7 +132,7 @@ inline void Window::OnScroll(GLFWwindow* glfw_window, double xoffset, double yof
     Input::mouse_scroll.y = float(yoffset);
 }
 
-inline void Window::glfw_error_callback(int32 error, const char* description)
+inline void Window::ErrorCallback(int32 error, const char* description)
 {
     fprintf(stderr, "GLFW Error %d: %s\n", error, description);
 }
@@ -143,7 +142,7 @@ inline Window::Window(int32 width, int32 height, const char* title)
     , height{ height }
 {
     fprintf(stdout, "Initialize glfw\n");
-    glfwSetErrorCallback(glfw_error_callback);
+    glfwSetErrorCallback(ErrorCallback);
 
     if (!glfwInit())
     {
