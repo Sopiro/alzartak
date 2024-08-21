@@ -76,7 +76,7 @@ struct Camera3D
     {
         Window* window = Window::Get();
 
-        if (Input::IsMousePressed(GLFW_MOUSE_BUTTON_LEFT))
+        if (!ImGui::GetIO().WantCaptureMouse && Input::IsMousePressed(GLFW_MOUSE_BUTTON_LEFT))
             window->SetCursorHidden(true);
         else if (Input::IsKeyPressed(GLFW_KEY_ESCAPE))
             window->SetCursorHidden(false);

@@ -270,12 +270,12 @@ inline void Window::SetCursorHidden(bool hidden)
 {
     if (hidden)
     {
-        glfwSetCursorPos(glfw_window, width / 2.0f, height / 2.0f);
         glfwSetInputMode(glfw_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }
     else
     {
         glfwSetInputMode(glfw_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        glfwSetCursorPos(glfw_window, width / 2.0f, height / 2.0f);
     }
 }
 
