@@ -100,10 +100,7 @@ void Renderer::FlushTriangles()
         glBindBuffer(GL_ARRAY_BUFFER, cVBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vec4) * triangle_count, triangle_colors.data());
 
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDrawArrays(GL_TRIANGLES, 0, triangle_count);
-        glDisable(GL_BLEND);
     }
     glBindVertexArray(0);
 

@@ -45,6 +45,8 @@ void Init()
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     UpdateProjectionMatrix();
     window->SetFramebufferSizeChangeCallback([&](int32 width, int32 height) -> void {
@@ -102,7 +104,7 @@ void Update()
     Vec3 m = Vec3(-2, 1, -1);
     AABB a(m, m + Vec3(0.7f));
 
-    renderer->DrawAABB(a, Vec4(1, 1, 1, 0.2f));
+    renderer->DrawAABB(a, Vec4(1, 1, 1, 0.5f));
 
     renderer->FlushAll();
 
