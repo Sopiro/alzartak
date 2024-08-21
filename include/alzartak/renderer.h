@@ -9,7 +9,7 @@ namespace alzartak
 
 struct Vertex
 {
-    Vec3 point;
+    Point3 point;
     Vec4 color;
 };
 
@@ -36,16 +36,16 @@ public:
     void SetViewMatrix(const Mat4& view_matrix);
 
     void DrawPoint(const Vertex& v);
-    void DrawPoint(const Vec2& p, const Vec4& color = Vec4(Color::black, 0.8f));
-    void DrawPoint(const Vec3& p, const Vec4& color = Vec4(Color::black, 0.8f));
+    void DrawPoint(const Point2& p, const Vec4& color = Vec4(Color::black, 0.8f));
+    void DrawPoint(const Point3& p, const Vec4& color = Vec4(Color::black, 0.8f));
 
     void DrawLine(const Vertex& v1, const Vertex& v2);
-    void DrawLine(const Vec2& p1, const Vec2& p2, const Vec4& color = Vec4(Color::black, 0.8f));
-    void DrawLine(const Vec3& p1, const Vec3& p2, const Vec4& color = Vec4(Color::black, 0.8f));
+    void DrawLine(const Point2& p1, const Point2& p2, const Vec4& color = Vec4(Color::black, 0.8f));
+    void DrawLine(const Point3& p1, const Point3& p2, const Vec4& color = Vec4(Color::black, 0.8f));
 
     void DrawTriangle(const Vertex& v1, const Vertex& v2, const Vertex& v3);
-    void DrawTriangle(const Vec2& p1, const Vec2& p2, const Vec2& p3, const Vec4& color = Vec4(Color::black, 0.8f));
-    void DrawTriangle(const Vec3& p1, const Vec3& p2, const Vec3& p3, const Vec4& color = Vec4(Color::black, 0.8f));
+    void DrawTriangle(const Point2& p1, const Point2& p2, const Point2& p3, const Vec4& color = Vec4(Color::black, 0.8f));
+    void DrawTriangle(const Point3& p1, const Point3& p2, const Point3& p3, const Vec4& color = Vec4(Color::black, 0.8f));
 
     void DrawAABB(const AABB2& aabb, const Vec4& color = Vec4(Color::black, 0.8f));
     void DrawAABB(const AABB3& aabb, const Vec4& color = Vec4(Color::black, 0.8f));
@@ -55,7 +55,7 @@ public:
     void FlushLines();
     void FlushTriangles();
 
-    Vec3 Pick(const Vec2& screen_pos) const;
+    Point3 Pick(const Point2& screen_pos) const;
 
 private:
     friend class BatchShader;
@@ -124,12 +124,12 @@ inline void Renderer::DrawPoint(const Vertex& v)
     ++point_count;
 }
 
-inline void Renderer::DrawPoint(const Vec2& p, const Vec4& color)
+inline void Renderer::DrawPoint(const Point2& p, const Vec4& color)
 {
-    DrawPoint(Vec3(p, 0), color);
+    DrawPoint(Point3(p, 0), color);
 }
 
-inline void Renderer::DrawPoint(const Vec3& p, const Vec4& color)
+inline void Renderer::DrawPoint(const Point3& p, const Vec4& color)
 {
     if (point_count == max_vertex_count)
     {
@@ -156,12 +156,12 @@ inline void Renderer::DrawLine(const Vertex& v1, const Vertex& v2)
     ++line_count;
 }
 
-inline void Renderer::DrawLine(const Vec2& p1, const Vec2& p2, const Vec4& color)
+inline void Renderer::DrawLine(const Point2& p1, const Point2& p2, const Vec4& color)
 {
-    DrawLine(Vec3(p1, 0), Vec3(p2, 0), color);
+    DrawLine(Point3(p1, 0), Point3(p2, 0), color);
 }
 
-inline void Renderer::DrawLine(const Vec3& p1, const Vec3& p2, const Vec4& color)
+inline void Renderer::DrawLine(const Point3& p1, const Point3& p2, const Vec4& color)
 {
     if (line_count == max_vertex_count)
     {
@@ -194,12 +194,12 @@ inline void Renderer::DrawTriangle(const Vertex& v1, const Vertex& v2, const Ver
     ++triangle_count;
 }
 
-inline void Renderer::DrawTriangle(const Vec2& p1, const Vec2& p2, const Vec2& p3, const Vec4& color)
+inline void Renderer::DrawTriangle(const Point2& p1, const Point2& p2, const Point2& p3, const Vec4& color)
 {
-    DrawTriangle(Vec3(p1, 0), Vec3(p2, 0), Vec3(p3, 0), color);
+    DrawTriangle(Point3(p1, 0), Point3(p2, 0), Point3(p3, 0), color);
 }
 
-inline void Renderer::DrawTriangle(const Vec3& p1, const Vec3& p2, const Vec3& p3, const Vec4& color)
+inline void Renderer::DrawTriangle(const Point3& p1, const Point3& p2, const Point3& p3, const Vec4& color)
 {
     if (triangle_count == max_vertex_count)
     {
@@ -219,8 +219,8 @@ inline void Renderer::DrawTriangle(const Vec3& p1, const Vec3& p2, const Vec3& p
 
 inline void Renderer::DrawAABB(const AABB2& aabb, const Vec4& color)
 {
-    Vec2 br{ aabb.max.x, aabb.min.y };
-    Vec2 tl{ aabb.min.x, aabb.max.y };
+    Point2 br{ aabb.max.x, aabb.min.y };
+    Point2 tl{ aabb.min.x, aabb.max.y };
 
     DrawLine(aabb.min, br, color);
     DrawLine(br, aabb.max, color);
@@ -230,18 +230,18 @@ inline void Renderer::DrawAABB(const AABB2& aabb, const Vec4& color)
 
 inline void Renderer::DrawAABB(const AABB3& aabb, const Vec4& color)
 {
-    Vec3 min = aabb.min;
-    Vec3 max = aabb.max;
+    Point3 min = aabb.min;
+    Point3 max = aabb.max;
 
-    Vec3 p0{ min.x, min.y, min.z };
-    Vec3 p1{ max.x, min.y, min.z };
-    Vec3 p2{ max.x, max.y, min.z };
-    Vec3 p3{ min.x, max.y, min.z };
+    Point3 p0{ min.x, min.y, min.z };
+    Point3 p1{ max.x, min.y, min.z };
+    Point3 p2{ max.x, max.y, min.z };
+    Point3 p3{ min.x, max.y, min.z };
 
-    Vec3 p4{ min.x, min.y, max.z };
-    Vec3 p5{ max.x, min.y, max.z };
-    Vec3 p6{ max.x, max.y, max.z };
-    Vec3 p7{ min.x, max.y, max.z };
+    Point3 p4{ min.x, min.y, max.z };
+    Point3 p5{ max.x, min.y, max.z };
+    Point3 p6{ max.x, max.y, max.z };
+    Point3 p7{ min.x, max.y, max.z };
 
     // back
     DrawLine(p0, p1, color);
@@ -264,16 +264,16 @@ inline void Renderer::DrawAABB(const AABB3& aabb, const Vec4& color)
     DrawLine(p2, p6, color);
 }
 // Viewport space -> NDC -> world spcae
-inline Vec3 Renderer::Pick(const Vec2& screen_pos) const
+inline Point3 Renderer::Pick(const Point2& screen_pos) const
 {
     // Viewport space
-    Vec2 window_size = Window::Get()->GetWindowSize();
-    Vec3 world_pos(screen_pos.x, window_size.y - screen_pos.y - 1, 0);
+    Point2 window_size = Window::Get()->GetWindowSize();
+    Point3 world_pos(screen_pos.x, window_size.y - screen_pos.y - 1, 0);
 
     world_pos.x /= window_size.x;
     world_pos.y /= window_size.y;
 
-    world_pos -= Vec3(0.5f);
+    world_pos -= Point3(0.5f);
     world_pos *= 2.0f;
     // Now in NDC (-1 ~ 1)
 
@@ -282,7 +282,7 @@ inline Vec3 Renderer::Pick(const Vec2& screen_pos) const
     // World space
     Vec4 inv_pos = Mul(inv_VP, Vec4(world_pos, 1.0f));
 
-    return Vec3(inv_pos.x, inv_pos.y, inv_pos.z);
+    return Point3(inv_pos.x, inv_pos.y, inv_pos.z);
 }
 
 } // namespace alzartak
