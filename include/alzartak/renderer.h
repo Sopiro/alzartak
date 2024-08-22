@@ -219,19 +219,24 @@ inline void Renderer::DrawTriangle(const Point3& p1, const Point3& p2, const Poi
 
 inline void Renderer::DrawAABB(const AABB2& aabb, const Vec4& color)
 {
-    Point2 br{ aabb.max.x, aabb.min.y };
-    Point2 tl{ aabb.min.x, aabb.max.y };
+    const Point2& min = aabb.min;
+    const Point2& max = aabb.max;
 
-    DrawLine(aabb.min, br, color);
-    DrawLine(br, aabb.max, color);
-    DrawLine(aabb.max, tl, color);
-    DrawLine(tl, aabb.min, color);
+    Point2 p0{ min.x, min.y };
+    Point2 p1{ max.x, min.y };
+    Point2 p2{ max.x, max.y };
+    Point2 p3{ min.x, max.y };
+
+    DrawLine(p0, p1, color);
+    DrawLine(p1, p2, color);
+    DrawLine(p2, p3, color);
+    DrawLine(p3, p0, color);
 }
 
 inline void Renderer::DrawAABB(const AABB3& aabb, const Vec4& color)
 {
-    Point3 min = aabb.min;
-    Point3 max = aabb.max;
+    const Point3& min = aabb.min;
+    const Point3& max = aabb.max;
 
     Point3 p0{ min.x, min.y, min.z };
     Point3 p1{ max.x, min.y, min.z };
@@ -274,13 +279,13 @@ inline Point3 Renderer::Pick(const Point2& screen_pos) const
     world_pos.y /= window_size.y;
 
     world_pos -= Point3(0.5f);
-    world_pos *= 2.0f;
+    world_pos *= 2;
     // Now in NDC (-1 ~ 1)
 
     Mat4 inv_VP = (shader->proj_matrix * shader->view_matrix).GetInverse();
 
     // World space
-    Vec4 inv_pos = Mul(inv_VP, Vec4(world_pos, 1.0f));
+    Vec4 inv_pos = Mul(inv_VP, Vec4(world_pos, 1));
 
     return Point3(inv_pos.x, inv_pos.y, inv_pos.z);
 }

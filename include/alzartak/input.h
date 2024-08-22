@@ -14,15 +14,18 @@ public:
 
     static void Init();
     static void Update();
+
     static bool IsKeyDown(int32 key);
     static bool IsKeyPressed(int32 key);
     static bool IsKeyReleased(int32 key);
+
     static bool IsMouseDown(int32 button);
     static bool IsMousePressed(int32 button);
     static bool IsMouseReleased(int32 button);
-    static Vec2 GetMousePosition();
-    static Vec2 GetMouseAcceleration();
-    static Vec2 GetMouseScroll();
+
+    static Point2 GetMousePosition();
+    static Point2 GetMouseAcceleration();
+    static Point2 GetMouseScroll();
 
 private:
     friend class Window;
@@ -33,11 +36,11 @@ private:
     inline static std::array<bool, GLFW_MOUSE_BUTTON_LAST + 1> last_btns;
     inline static std::array<bool, GLFW_MOUSE_BUTTON_LAST + 1> curr_btns;
 
-    inline static Vec2 curr_mouse_pos{ 0 };
-    inline static Vec2 last_mouse_pos{ 0 };
-    inline static Vec2 mouse_acceleration{ 0 };
+    inline static Point2 curr_mouse_pos{ 0 };
+    inline static Point2 last_mouse_pos{ 0 };
+    inline static Point2 mouse_acceleration{ 0 };
 
-    inline static Vec2 mouse_scroll{ 0 };
+    inline static Point2 mouse_scroll{ 0 };
 };
 
 inline void Input::Init()
@@ -90,17 +93,17 @@ inline bool Input::IsMouseReleased(int32 button)
     return !curr_btns[button] && last_btns[button];
 }
 
-inline Vec2 Input::GetMousePosition()
+inline Point2 Input::GetMousePosition()
 {
     return curr_mouse_pos;
 }
 
-inline Vec2 Input::GetMouseAcceleration()
+inline Point2 Input::GetMouseAcceleration()
 {
     return mouse_acceleration;
 }
 
-inline Vec2 Input::GetMouseScroll()
+inline Point2 Input::GetMouseScroll()
 {
     return mouse_scroll;
 }

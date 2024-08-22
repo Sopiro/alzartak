@@ -14,9 +14,9 @@ Shader::Shader(const char* vs_code, const char* fs_code)
     glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
     if (!success)
     {
-        char infoLog[1024];
-        glGetShaderInfoLog(vertex_shader, 1024, nullptr, infoLog);
-        std::printf("failed to compile vertex shader: %s\n", infoLog);
+        char info_log[1024];
+        glGetShaderInfoLog(vertex_shader, 1024, nullptr, info_log);
+        std::printf("failed to compile vertex shader: %s\n", info_log);
         exit(1);
     }
 
@@ -29,9 +29,9 @@ Shader::Shader(const char* vs_code, const char* fs_code)
     glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
     if (!success)
     {
-        char infoLog[1024];
-        glGetShaderInfoLog(fragment_shader, 1024, nullptr, infoLog);
-        std::printf("failed to compile fragment shader: %s\n", infoLog);
+        char info_log[1024];
+        glGetShaderInfoLog(fragment_shader, 1024, nullptr, info_log);
+        std::printf("failed to compile fragment shader: %s\n", info_log);
         exit(1);
     }
 
@@ -45,9 +45,9 @@ Shader::Shader(const char* vs_code, const char* fs_code)
     glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
     if (!success)
     {
-        char infoLog[1024];
-        glGetProgramInfoLog(shader_program, 1024, nullptr, infoLog);
-        std::printf("failed to link program: %s\n", infoLog);
+        char info_log[1024];
+        glGetProgramInfoLog(shader_program, 1024, nullptr, info_log);
+        std::printf("failed to link program: %s\n", info_log);
         exit(1);
     }
 

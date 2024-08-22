@@ -80,18 +80,18 @@ struct Camera3D
         else if (Input::IsKeyPressed(GLFW_KEY_ESCAPE))
             window->SetCursorHidden(false);
 
-        Vec3 a(0);
+        Vec3 accel(0);
 
-        if (Input::IsKeyDown(GLFW_KEY_W)) a.z--;
-        if (Input::IsKeyDown(GLFW_KEY_S)) a.z++;
-        if (Input::IsKeyDown(GLFW_KEY_A)) a.x--;
-        if (Input::IsKeyDown(GLFW_KEY_D)) a.x++;
-        if (Input::IsKeyDown(GLFW_KEY_SPACE)) a.y++;
-        if (Input::IsKeyDown(GLFW_KEY_LEFT_CONTROL) || Input::IsKeyDown(GLFW_KEY_C)) a.y--;
+        if (Input::IsKeyDown(GLFW_KEY_W)) accel.z--;
+        if (Input::IsKeyDown(GLFW_KEY_S)) accel.z++;
+        if (Input::IsKeyDown(GLFW_KEY_A)) accel.x--;
+        if (Input::IsKeyDown(GLFW_KEY_D)) accel.x++;
+        if (Input::IsKeyDown(GLFW_KEY_SPACE)) accel.y++;
+        if (Input::IsKeyDown(GLFW_KEY_LEFT_CONTROL) || Input::IsKeyDown(GLFW_KEY_C)) accel.y--;
 
         if (window->GetCursorHidden())
         {
-            Vec2 ma = Input::GetMouseAcceleration();
+            Point2 ma = Input::GetMouseAcceleration();
             rotation.y -= ma.x * DegToRad(sensitivity);
             rotation.x -= ma.y * DegToRad(sensitivity);
         }
@@ -103,11 +103,15 @@ struct Camera3D
         float cos = std::cos(rotation.y);
         float sin = std::sin(rotation.y);
 
-        velocity.x += speed * (a.x * cos + a.z * sin);
-        velocity.z += speed * (a.x * -sin + a.z * cos);
-        velocity.y += a.y * speed;
+        // Integrate velocity
+        velocity.x += speed * (accel.x * cos + accel.z * sin);
+        velocity.z += speed * (accel.x * -sin + accel.z * cos);
+        velocity.y += speed * accel.y;
 
+        // Integrate position
         position += velocity * dt;
+
+        // Apply damping
         velocity *= std::exp(-damping * dt);
     }
 

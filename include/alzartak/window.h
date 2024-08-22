@@ -11,8 +11,8 @@ class Window : NonCopyable
 public:
     ~Window() noexcept;
 
-    void SetFramebufferSizeChangeCallback(const std::function<void(int32, int32)>& callback);
-    Vec2 GetWindowSize() const;
+    void SetFramebufferSizeChangeCallback(std::function<void(int32, int32)> callback);
+    Point2i GetWindowSize() const;
     int32 GetRefreshRate() const;
 
     bool GetCursorHidden();
@@ -31,7 +31,7 @@ private:
     inline static std::unique_ptr<Window> window;
 
     GLFWwindow* glfw_window;
-    int32 width, height;
+    Point2i window_size;
     int32 refresh_rate;
     std::function<void(int32, int32)> framebuffer_size_change_callback = nullptr;
 
@@ -64,8 +64,7 @@ inline void Window::OnFramebufferSizeChange(GLFWwindow* glfw_window, int32 width
 {
     WakNotUsed(glfw_window);
 
-    window->width = width;
-    window->height = height;
+    window->window_size.Set(width, height);
 
     if (window->framebuffer_size_change_callback)
     {
@@ -138,8 +137,7 @@ inline void Window::ErrorCallback(int32 error, const char* description)
 }
 
 inline Window::Window(int32 width, int32 height, const char* title)
-    : width{ width }
-    , height{ height }
+    : window_size{ width, height }
 {
     fprintf(stdout, "Initialize glfw\n");
     glfwSetErrorCallback(ErrorCallback);
@@ -255,9 +253,9 @@ inline Window::~Window() noexcept
     glfwTerminate();
 }
 
-inline void Window::SetFramebufferSizeChangeCallback(const std::function<void(int32 width, int32 height)>& callback)
+inline void Window::SetFramebufferSizeChangeCallback(std::function<void(int32 width, int32 height)> callback)
 {
-    framebuffer_size_change_callback = callback;
+    framebuffer_size_change_callback = std::move(callback);
 }
 
 inline bool Window::GetCursorHidden()
@@ -274,7 +272,7 @@ inline void Window::SetCursorHidden(bool hidden)
     else
     {
         glfwSetInputMode(glfw_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-        glfwSetCursorPos(glfw_window, width / 2.0f, height / 2.0f);
+        glfwSetCursorPos(glfw_window, window_size.x / 2.0f, window_size.y / 2.0f);
     }
 }
 
@@ -287,14 +285,13 @@ inline void Window::BeginFrame(const Point3& clear_color) const
 {
     glfwPollEvents();
 
-    // Start the Dear ImGui frame
+    // Begin ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
     glClearColor(clear_color.x, clear_color.y, clear_color.z, 1);
     glClear(GL_COLOR_BUFFER_BIT);
-    // glViewport(0, 0, Window::Width, Window::Height);
 }
 
 inline void Window::EndFrame() const
@@ -307,9 +304,9 @@ inline void Window::EndFrame() const
     Input::Update();
 }
 
-inline Vec2 Window::GetWindowSize() const
+inline Point2i Window::GetWindowSize() const
 {
-    return Vec2{ float(width), float(height) };
+    return window_size;
 }
 
 inline int32 Window::GetRefreshRate() const

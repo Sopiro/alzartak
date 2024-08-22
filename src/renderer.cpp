@@ -29,7 +29,7 @@ Renderer::Renderer()
     }
     glBindVertexArray(0);
 
-    if (initialized == false)
+    if (!initialized)
     {
         constexpr float stride = 360.0f / color_count;
         for (int32 i = 0; i < color_count; ++i)
