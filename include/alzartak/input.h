@@ -12,7 +12,6 @@ class Input final
 public:
     Input() = delete;
 
-    static void Init();
     static void Update();
 
     static bool IsKeyDown(int32 key);
@@ -30,11 +29,11 @@ public:
 private:
     friend class Window;
 
-    inline static std::array<bool, GLFW_KEY_LAST + 1> last_keys;
-    inline static std::array<bool, GLFW_KEY_LAST + 1> curr_keys;
+    inline static std::array<bool, GLFW_KEY_LAST + 1> last_keys = { 0 };
+    inline static std::array<bool, GLFW_KEY_LAST + 1> curr_keys = { 0 };
 
-    inline static std::array<bool, GLFW_MOUSE_BUTTON_LAST + 1> last_btns;
-    inline static std::array<bool, GLFW_MOUSE_BUTTON_LAST + 1> curr_btns;
+    inline static std::array<bool, GLFW_MOUSE_BUTTON_LAST + 1> last_btns = { 0 };
+    inline static std::array<bool, GLFW_MOUSE_BUTTON_LAST + 1> curr_btns = { 0 };
 
     inline static Point2 curr_mouse_pos{ 0 };
     inline static Point2 last_mouse_pos{ 0 };
@@ -42,15 +41,6 @@ private:
 
     inline static Point2 mouse_scroll{ 0 };
 };
-
-inline void Input::Init()
-{
-    last_keys.fill(false);
-    curr_keys.fill(false);
-
-    last_btns.fill(false);
-    curr_btns.fill(false);
-}
 
 inline void Input::Update()
 {

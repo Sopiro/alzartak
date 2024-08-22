@@ -239,8 +239,6 @@ inline Window::Window(int32 width, int32 height, const char* title)
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
-
-    Input::Init();
 }
 
 inline Window::~Window() noexcept
