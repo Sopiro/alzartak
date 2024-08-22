@@ -20,11 +20,13 @@ bool mode = true;
 
 void UpdateProjectionMatrix()
 {
-    Point2i extents = window->GetWindowSize() / scale;
+    Point2 extents = window->GetWindowSize();
+    extents /= scale;
+
     WakNotUsed(extents);
     if (mode)
     {
-        Mat4 proj_matrix = Mat4::Orth(-extents.x / 2.0f, extents.x / 2.0f, -extents.y / 2.0f, extents.y / 2.0f, -1000, 1000);
+        Mat4 proj_matrix = Mat4::Orth(-extents.x / 2, extents.x / 2, -extents.y / 2, extents.y / 2, -1000, 1000);
         renderer->SetProjectionMatrix(proj_matrix);
     }
     else

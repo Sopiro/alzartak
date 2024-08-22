@@ -48,8 +48,10 @@ int main()
     Camera2D camera;
 
     const float scale = 100.0f;
-    Point2i extents = window->GetWindowSize() / scale;
-    Mat4 projection_matrix = Mat4::Orth(-extents.x / 2.0f, extents.x / 2.0f, -extents.y / 2.0f, extents.y / 2.0f, 0, 1);
+    Point2 extents = window->GetWindowSize();
+    extents /= scale;
+
+    Mat4 projection_matrix = Mat4::Orth(-extents.x / 2, extents.x / 2, -extents.y / 2, extents.y / 2, 0, 1);
     renderer.SetProjectionMatrix(projection_matrix);
 
     while (!window->ShouldClose())
