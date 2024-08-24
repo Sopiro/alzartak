@@ -72,10 +72,13 @@ void Update()
     window->BeginFrame(Color::light_blue);
     // ImGui::ShowDemoWindow();
 
+    ImGuiIO& io = ImGui::GetIO();
+
     ImGui::SetNextWindowPos({ 4, 4 }, ImGuiCond_Once, { 0.0f, 0.0f });
 
     if (ImGui::Begin("alzartak", NULL, ImGuiWindowFlags_AlwaysAutoResize))
     {
+        ImGui::Text("%d fps", int32(io.Framerate));
         if (ImGui::Checkbox("CameraMode 2D/3D", &mode))
         {
             UpdateProjectionMatrix();

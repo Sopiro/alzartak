@@ -12,6 +12,6 @@ add_subdirectory(extern)
 add_subdirectory(src)
 
 if(ALZARTAK_BUILD_SAMPLE)
-    message("Build Alzartak sample")
+    message("Build alzartak sample")
     add_subdirectory(sample)
 endif()
