@@ -15,9 +15,9 @@ for /f "tokens=2 delims==" %%a in ('findstr /b "BUILD_TYPE:STRING=" %CACHE_FILE%
 findstr "Emscripten.cmake" %CACHE_FILE%
 
 if %errorlevel%==0 (
-    emrun .\build\bin\%BUILD_TYPE%\test.html
+    emrun .\build\bin\%BUILD_TYPE%\sample.html
 ) else (
-    .\build\bin\%BUILD_TYPE%\test
+    .\build\bin\%BUILD_TYPE%\sample
 )
 
 endlocal

@@ -1,4 +1,4 @@
-set(TEST_PROJECT test)
+set(TEST_PROJECT sample)
 
 add_executable(${TEST_PROJECT} main.cpp)
 
