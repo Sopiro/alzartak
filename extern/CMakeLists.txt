@@ -30,6 +30,10 @@ if(NOT EMSCRIPTEN)
     FetchContent_MakeAvailable(glfw)
 endif()
 
+if(MSVC)
+    target_compile_options(glfw PRIVATE /wd4819)
+endif()
+
 # add_subdirectory(${glfw_SOURCE_DIR} ${glfw_BINARY_DIR})
 # message(${glfw_SOURCE_DIR})
 
@@ -62,5 +66,9 @@ set_target_properties(imgui PROPERTIES
     CXX_STANDARD_REQUIRED YES
     CXX_EXTENSIONS NO
 )
+
+if(MSVC)
+    target_compile_options(imgui PRIVATE /wd4819)
+endif()
 
 target_link_libraries(imgui glfw)

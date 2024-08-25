@@ -1,25 +1,25 @@
-set(TEST_PROJECT sample)
+set(SAMPLE_PROJECT sample)
 
-add_executable(${TEST_PROJECT} main.cpp)
+add_executable(${SAMPLE_PROJECT} main.cpp)
 
-set_target_properties(${TEST_PROJECT} PROPERTIES
+set_target_properties(${SAMPLE_PROJECT} PROPERTIES
     CXX_STANDARD 20
     CXX_STANDARD_REQUIRED YES
     CXX_EXTENSIONS NO
 )
 
-target_link_libraries(${TEST_PROJECT} PUBLIC alzartak)
+target_link_libraries(${SAMPLE_PROJECT} PUBLIC alzartak)
 
 if(MSVC)
-    target_compile_options(${TEST_PROJECT} PRIVATE /W4 /WX /wd4819)
+    target_compile_options(${SAMPLE_PROJECT} PRIVATE /W4 /WX /wd4819)
 else()
-    target_compile_options(${TEST_PROJECT} PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    target_compile_options(${SAMPLE_PROJECT} PRIVATE -Wall -Wextra -Wpedantic -Werror)
 endif()
 
 if(EMSCRIPTEN)
     set(CMAKE_EXECUTABLE_SUFFIX .html)
 
-    target_link_options(${TEST_PROJECT} PRIVATE
+    target_link_options(${SAMPLE_PROJECT} PRIVATE
         -sWASM=1
         -sALLOW_MEMORY_GROWTH=1
         -sASSERTIONS=1
@@ -35,10 +35,10 @@ if(EMSCRIPTEN)
     )
 
     # add_custom_command(
-    #     TARGET ${TEST_PROJECT} POST_BUILD
-    #     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TEST_PROJECT}.html ${CMAKE_CURRENT_SOURCE_DIR}/../${TEST_PROJECT}.html
-    #     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TEST_PROJECT}.js ${CMAKE_CURRENT_SOURCE_DIR}/../${TEST_PROJECT}.js
-    #     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TEST_PROJECT}.wasm ${CMAKE_CURRENT_SOURCE_DIR}/../${TEST_PROJECT}.wasm
+    #     TARGET ${SAMPLE_PROJECT} POST_BUILD
+    #     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${SAMPLE_PROJECT}.html ${CMAKE_CURRENT_SOURCE_DIR}/../${SAMPLE_PROJECT}.html
+    #     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${SAMPLE_PROJECT}.js ${CMAKE_CURRENT_SOURCE_DIR}/../${SAMPLE_PROJECT}.js
+    #     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${SAMPLE_PROJECT}.wasm ${CMAKE_CURRENT_SOURCE_DIR}/../${SAMPLE_PROJECT}.wasm
     # )
     
 endif()

@@ -145,7 +145,7 @@ int main()
         if (delta_time > target_frame_time)
         {
             Update();
-            delta_time = 0;
+            delta_time -= target_frame_time;
         }
     }
 #endif
