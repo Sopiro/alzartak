@@ -273,10 +273,13 @@ inline Point3 Renderer::Pick(const Point2& screen_pos) const
 {
     Point2 window_size = Window::Get()->GetWindowSize();
 
+    // Screen position in NDC near plane
     Vec4 ndc_pos((2 * screen_pos.x) / window_size.x - 1, 1 - (2 * screen_pos.y) / window_size.y, -1, 1);
 
+    // Camera space position
     Vec4 view_pos = Mul(shader->proj_matrix.GetInverse(), ndc_pos);
 
+    // Re-stratching z and set w to 1 so that it can be interpreted as a point
     view_pos.z /= view_pos.w;
     view_pos.w = 1;
 
