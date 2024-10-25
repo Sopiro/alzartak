@@ -271,23 +271,18 @@ inline void Renderer::DrawAABB(const AABB3& aabb, const Vec4& color)
 // Viewport space -> NDC -> world spcae
 inline Point3 Renderer::Pick(const Point2& screen_pos) const
 {
-    // Viewport space
     Point2 window_size = Window::Get()->GetWindowSize();
-    Point3 world_pos(screen_pos.x, window_size.y - screen_pos.y - 1, 0);
 
-    world_pos.x /= window_size.x;
-    world_pos.y /= window_size.y;
+    Vec4 ndc_pos((2 * screen_pos.x) / window_size.x - 1, 1 - (2 * screen_pos.y) / window_size.y, -1, 1);
 
-    world_pos -= Point3(0.5f);
-    world_pos *= 2;
-    // Now in NDC (-1 ~ 1)
+    Vec4 view_pos = Mul(shader->proj_matrix.GetInverse(), ndc_pos);
 
-    Mat4 inv_VP = (shader->proj_matrix * shader->view_matrix).GetInverse();
+    view_pos.z /= view_pos.w;
+    view_pos.w = 1;
 
-    // World space
-    Vec4 inv_pos = Mul(inv_VP, Vec4(world_pos, 1));
+    Vec4 world_pos = Mul(shader->view_matrix.GetInverse(), view_pos);
 
-    return Point3(inv_pos.x, inv_pos.y, inv_pos.z);
+    return Point3(world_pos.x, world_pos.y, world_pos.z);
 }
 
 } // namespace alzartak

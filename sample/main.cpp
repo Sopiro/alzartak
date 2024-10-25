@@ -31,7 +31,7 @@ void UpdateProjectionMatrix()
     }
     else
     {
-        Mat4 proj_matrix = Mat4::Perspective(DegToRad(71.0f), 16.0f / 9.0f, 0.0f, 1000.0f);
+        Mat4 proj_matrix = Mat4::Perspective(DegToRad(71.0f), 16.0f / 9.0f, 0.01f, 1000.0f);
         renderer->SetProjectionMatrix(proj_matrix);
     }
 }
