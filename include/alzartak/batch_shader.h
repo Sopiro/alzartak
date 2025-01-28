@@ -20,8 +20,6 @@ public:
     void SetProjectionMatrix(const Mat4& proj_matrix);
 
 private:
-    friend class Renderer;
-
     BatchShader();
 
     Mat4 view_matrix{ identity };
@@ -40,8 +38,7 @@ inline const Mat4& BatchShader::GetViewMatrix() const
 
 inline void BatchShader::SetViewMatrix(const Mat4& vm)
 {
-    view_matrix = vm;
-    glUniformMatrix4fv(uniform_map["view"], 1, GL_FALSE, &view_matrix[0][0]);
+    SetMat4("view", view_matrix = vm);
 }
 
 inline const Mat4& BatchShader::GetProjectionMatrix() const
@@ -51,8 +48,7 @@ inline const Mat4& BatchShader::GetProjectionMatrix() const
 
 inline void BatchShader::SetProjectionMatrix(const Mat4& pm)
 {
-    proj_matrix = pm;
-    glUniformMatrix4fv(uniform_map["proj"], 1, GL_FALSE, &proj_matrix[0][0]);
+    SetMat4("proj", proj_matrix = pm);
 }
 
 } // namespace alzartak

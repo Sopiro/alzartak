@@ -68,4 +68,23 @@ Shader::~Shader() noexcept
     }
 }
 
+GLint Shader::GetUniformLocation(const std::string& name)
+{
+    auto it = uniform_map.find(name);
+    if (it != uniform_map.end())
+    {
+        return it->second;
+    }
+
+    GLint location = glGetUniformLocation(shader_handle, name.c_str());
+    if (location == -1)
+    {
+        std::printf("Warning: uniform '%s' not found\n", name.c_str());
+    }
+
+    uniform_map[name] = location;
+
+    return location;
+}
+
 } // namespace alzartak

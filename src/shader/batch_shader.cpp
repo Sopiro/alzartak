@@ -40,10 +40,8 @@ BatchShader::BatchShader()
     )"
       )
 {
-    uniform_map.emplace("color", glGetUniformLocation(shader_handle, "color"));
-    uniform_map.emplace("model", glGetUniformLocation(shader_handle, "model"));
-    uniform_map.emplace("view", glGetUniformLocation(shader_handle, "view"));
-    uniform_map.emplace("proj", glGetUniformLocation(shader_handle, "proj"));
+    GetUniformLocation("view");
+    GetUniformLocation("proj");
 }
 
 } // namespace alzartak
