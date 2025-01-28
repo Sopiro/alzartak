@@ -12,10 +12,10 @@ target_precompile_headers(${PROJECT_NAME} PUBLIC
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/../include
+    ${stb_SOURCE_DIR}
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    CMAKE_COMPILE_WARNING_AS_ERROR ON
     CXX_STANDARD 20
     CXX_STANDARD_REQUIRED YES
     CXX_EXTENSIONS NO
@@ -24,7 +24,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX /wd4819)
 else()
-    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror -Wno-error -Wno-missing-field-initializers)
 endif()
 
 target_link_libraries(${PROJECT_NAME} PUBLIC

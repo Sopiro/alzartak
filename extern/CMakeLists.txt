@@ -37,6 +37,16 @@ endif()
 # add_subdirectory(${glfw_SOURCE_DIR} ${glfw_BINARY_DIR})
 # message(${glfw_SOURCE_DIR})
 
+
+# stb
+FetchContent_Declare(
+    stb
+    GIT_REPOSITORY https://github.com/nothings/stb.git
+    GIT_TAG master
+)
+
+FetchContent_MakeAvailable(stb)
+
 # imgui
 FetchContent_Declare(
     imgui
@@ -59,6 +69,7 @@ add_library(imgui ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES}
 target_include_directories(imgui PUBLIC
     ${imgui_SOURCE_DIR}
     ${imgui_SOURCE_DIR}/backends
+    ${stb_SOURCE_DIR}
 )
 
 set_target_properties(imgui PROPERTIES
@@ -69,6 +80,8 @@ set_target_properties(imgui PROPERTIES
 
 if(MSVC)
     target_compile_options(imgui PRIVATE /wd4819)
+else()
+    target_compile_options(imgui PRIVATE -Wno-missing-field-initializers)
 endif()
 
 target_link_libraries(imgui glfw)
