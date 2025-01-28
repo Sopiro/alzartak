@@ -2,8 +2,8 @@
 #include <crtdbg.h>
 #endif
 
+#include "alzartak/batch_renderer.h"
 #include "alzartak/camera.h"
-#include "alzartak/renderer.h"
 #include "alzartak/window.h"
 
 using namespace alzartak;
@@ -12,7 +12,7 @@ const float scale = 100.0f;
 float delta_time = 1.0f / 60.0f;
 
 Window* window;
-Renderer* renderer;
+BatchRenderer* renderer;
 Camera2D* camera_2d;
 Camera3D* camera_3d;
 
@@ -39,7 +39,7 @@ void UpdateProjectionMatrix()
 void Init()
 {
     window = Window::Init(1280, 720, "alzartak");
-    renderer = new Renderer;
+    renderer = new BatchRenderer;
 
     camera_2d = new Camera2D;
     camera_3d = new Camera3D;

@@ -1,10 +1,10 @@
-#include "alzartak/renderer.h"
+#include "alzartak/batch_renderer.h"
 #include "alzartak/util.h"
 
 namespace alzartak
 {
 
-Renderer::Renderer()
+BatchRenderer::BatchRenderer()
     : point_count{ 0 }
     , line_count{ 0 }
     , triangle_count{ 0 }
@@ -43,14 +43,14 @@ Renderer::Renderer()
     }
 }
 
-Renderer::~Renderer()
+BatchRenderer::~BatchRenderer()
 {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &pVBO);
     glDeleteBuffers(1, &cVBO);
 }
 
-void Renderer::FlushPoints()
+void BatchRenderer::FlushPoints()
 {
     shader->Use();
 
@@ -69,7 +69,7 @@ void Renderer::FlushPoints()
     point_count = 0;
 }
 
-void Renderer::FlushLines()
+void BatchRenderer::FlushLines()
 {
     shader->Use();
 
@@ -88,7 +88,7 @@ void Renderer::FlushLines()
     line_count = 0;
 }
 
-void Renderer::FlushTriangles()
+void BatchRenderer::FlushTriangles()
 {
     shader->Use();
 

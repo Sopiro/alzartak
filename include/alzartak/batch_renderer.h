@@ -13,8 +13,7 @@ struct Vertex
     Vec4 color;
 };
 
-// Batch renderer
-class Renderer : NonCopyable
+class BatchRenderer : NonCopyable
 {
     static inline bool initialized = false;
 
@@ -26,8 +25,8 @@ class Renderer : NonCopyable
     static_assert(max_vertex_count % 3 == 0);
 
 public:
-    Renderer();
-    ~Renderer();
+    BatchRenderer();
+    ~BatchRenderer();
 
     void SetPointSize(float size) const;
     void SetLineWidth(float line_width) const;
@@ -79,7 +78,7 @@ private:
     GLuint cVBO; // color buffer
 };
 
-inline void Renderer::SetPointSize(float size) const
+inline void BatchRenderer::SetPointSize(float size) const
 {
 #ifndef __EMSCRIPTEN__
     glPointSize(size);
@@ -88,31 +87,31 @@ inline void Renderer::SetPointSize(float size) const
 #endif
 }
 
-inline void Renderer::SetLineWidth(float line_width) const
+inline void BatchRenderer::SetLineWidth(float line_width) const
 {
     glLineWidth(line_width);
 }
 
-inline void Renderer::FlushAll()
+inline void BatchRenderer::FlushAll()
 {
     if (point_count > 0) FlushPoints();
     if (line_count > 0) FlushLines();
     if (triangle_count > 0) FlushTriangles();
 }
 
-inline void Renderer::SetProjectionMatrix(const Mat4& proj_matrix)
+inline void BatchRenderer::SetProjectionMatrix(const Mat4& proj_matrix)
 {
     shader->Use();
     shader->SetProjectionMatrix(proj_matrix);
 }
 
-inline void Renderer::SetViewMatrix(const Mat4& view_matrix)
+inline void BatchRenderer::SetViewMatrix(const Mat4& view_matrix)
 {
     shader->Use();
     shader->SetViewMatrix(view_matrix);
 }
 
-inline void Renderer::DrawPoint(const Vertex& v)
+inline void BatchRenderer::DrawPoint(const Vertex& v)
 {
     if (point_count == max_vertex_count)
     {
@@ -124,12 +123,12 @@ inline void Renderer::DrawPoint(const Vertex& v)
     ++point_count;
 }
 
-inline void Renderer::DrawPoint(const Point2& p, const Vec4& color)
+inline void BatchRenderer::DrawPoint(const Point2& p, const Vec4& color)
 {
     DrawPoint(Point3(p, 0), color);
 }
 
-inline void Renderer::DrawPoint(const Point3& p, const Vec4& color)
+inline void BatchRenderer::DrawPoint(const Point3& p, const Vec4& color)
 {
     if (point_count == max_vertex_count)
     {
@@ -141,7 +140,7 @@ inline void Renderer::DrawPoint(const Point3& p, const Vec4& color)
     ++point_count;
 }
 
-inline void Renderer::DrawLine(const Vertex& v1, const Vertex& v2)
+inline void BatchRenderer::DrawLine(const Vertex& v1, const Vertex& v2)
 {
     if (line_count == max_vertex_count)
     {
@@ -156,12 +155,12 @@ inline void Renderer::DrawLine(const Vertex& v1, const Vertex& v2)
     ++line_count;
 }
 
-inline void Renderer::DrawLine(const Point2& p1, const Point2& p2, const Vec4& color)
+inline void BatchRenderer::DrawLine(const Point2& p1, const Point2& p2, const Vec4& color)
 {
     DrawLine(Point3(p1, 0), Point3(p2, 0), color);
 }
 
-inline void Renderer::DrawLine(const Point3& p1, const Point3& p2, const Vec4& color)
+inline void BatchRenderer::DrawLine(const Point3& p1, const Point3& p2, const Vec4& color)
 {
     if (line_count == max_vertex_count)
     {
@@ -176,7 +175,7 @@ inline void Renderer::DrawLine(const Point3& p1, const Point3& p2, const Vec4& c
     ++line_count;
 }
 
-inline void Renderer::DrawTriangle(const Vertex& v1, const Vertex& v2, const Vertex& v3)
+inline void BatchRenderer::DrawTriangle(const Vertex& v1, const Vertex& v2, const Vertex& v3)
 {
     if (triangle_count == max_vertex_count)
     {
@@ -194,12 +193,12 @@ inline void Renderer::DrawTriangle(const Vertex& v1, const Vertex& v2, const Ver
     ++triangle_count;
 }
 
-inline void Renderer::DrawTriangle(const Point2& p1, const Point2& p2, const Point2& p3, const Vec4& color)
+inline void BatchRenderer::DrawTriangle(const Point2& p1, const Point2& p2, const Point2& p3, const Vec4& color)
 {
     DrawTriangle(Point3(p1, 0), Point3(p2, 0), Point3(p3, 0), color);
 }
 
-inline void Renderer::DrawTriangle(const Point3& p1, const Point3& p2, const Point3& p3, const Vec4& color)
+inline void BatchRenderer::DrawTriangle(const Point3& p1, const Point3& p2, const Point3& p3, const Vec4& color)
 {
     if (triangle_count == max_vertex_count)
     {
@@ -217,7 +216,7 @@ inline void Renderer::DrawTriangle(const Point3& p1, const Point3& p2, const Poi
     ++triangle_count;
 }
 
-inline void Renderer::DrawAABB(const AABB2& aabb, const Vec4& color)
+inline void BatchRenderer::DrawAABB(const AABB2& aabb, const Vec4& color)
 {
     const Point2& min = aabb.min;
     const Point2& max = aabb.max;
@@ -233,7 +232,7 @@ inline void Renderer::DrawAABB(const AABB2& aabb, const Vec4& color)
     DrawLine(p3, p0, color);
 }
 
-inline void Renderer::DrawAABB(const AABB3& aabb, const Vec4& color)
+inline void BatchRenderer::DrawAABB(const AABB3& aabb, const Vec4& color)
 {
     const Point3& min = aabb.min;
     const Point3& max = aabb.max;
@@ -269,7 +268,7 @@ inline void Renderer::DrawAABB(const AABB3& aabb, const Vec4& color)
     DrawLine(p2, p6, color);
 }
 // Viewport space -> NDC -> world spcae
-inline Point3 Renderer::Pick(const Point2& screen_pos) const
+inline Point3 BatchRenderer::Pick(const Point2& screen_pos) const
 {
     Point2 window_size = Window::Get()->GetWindowSize();
 
