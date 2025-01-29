@@ -289,7 +289,7 @@ inline void Window::BeginFrame(const Point3& clear_color) const
     ImGui::NewFrame();
 
     glClearColor(clear_color.x, clear_color.y, clear_color.z, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 inline void Window::EndFrame() const

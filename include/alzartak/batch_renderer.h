@@ -7,14 +7,16 @@
 namespace alzartak
 {
 
-struct Vertex
-{
-    Point3 point;
-    Vec4 color;
-};
-
 class BatchRenderer : NonCopyable
 {
+public:
+    struct Vertex
+    {
+        Point3 point;
+        Vec4 color;
+    };
+
+private:
     static inline bool initialized = false;
 
     static constexpr inline int32 color_count = 10;

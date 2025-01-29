@@ -6,24 +6,28 @@
 namespace alzartak
 {
 
+struct Vertex
+{
+    Point3 position;
+    Vec3 normal;
+    Vec3 tangent;
+    Point2 texcoord;
+};
+
 class Mesh : NonCopyable
 {
 public:
-    Mesh(std::span<Vec3> vertices, std::span<Vec2> tex_coords, std::span<int32> indices);
+    Mesh(std::span<Vertex> vertices, std::span<int32> indices);
     ~Mesh() noexcept;
 
     void Draw(GLenum draw_mode = GL_TRIANGLES) const;
 
-private:
-    std::vector<Vec3> vertices;
-    std::vector<Vec2> tex_coords;
-    std::vector<int32> indices;
+    const size_t num_vertices, num_indices;
 
+private:
     GLuint VAO;
-    GLuint VBOv;
-    GLuint VBOt;
-    GLuint EBOt;
-    GLuint EBOl;
+    GLuint VBO;
+    GLuint EBO;
 };
 
 } // namespace alzartak
