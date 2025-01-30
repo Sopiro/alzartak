@@ -22,7 +22,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 if(MSVC)
-    target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX /wd4819)
+    target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX /wd4819 /wd4996 /wd4459)
 else()
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror -Wno-error -Wno-missing-field-initializers)
 endif()
