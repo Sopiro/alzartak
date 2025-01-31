@@ -19,8 +19,10 @@ public:
     void SetCursorHidden(bool hidden);
 
     bool ShouldClose() const;
-    void BeginFrame(const Point3& clear_color) const;
+    void BeginFrame(uint32 mask = (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)) const;
     void EndFrame() const;
+
+    void SetClearColor(const Point3& clear_color) const;
 
     static Window* Get();
     static Window* Init(int32 width, int32 height, const char* title);
@@ -279,7 +281,7 @@ inline bool Window::ShouldClose() const
     return glfwWindowShouldClose(glfw_window);
 }
 
-inline void Window::BeginFrame(const Point3& clear_color) const
+inline void Window::BeginFrame(uint32 mask) const
 {
     glfwPollEvents();
 
@@ -288,8 +290,7 @@ inline void Window::BeginFrame(const Point3& clear_color) const
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    glClearColor(clear_color.x, clear_color.y, clear_color.z, 1);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(mask);
 }
 
 inline void Window::EndFrame() const
@@ -300,6 +301,11 @@ inline void Window::EndFrame() const
     glfwSwapBuffers(glfw_window);
 
     Input::Update();
+}
+
+inline void Window::SetClearColor(const Point3& clear_color) const
+{
+    glClearColor(clear_color.x, clear_color.y, clear_color.z, 1);
 }
 
 inline Point2i Window::GetWindowSize() const

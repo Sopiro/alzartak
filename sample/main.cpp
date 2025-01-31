@@ -56,6 +56,8 @@ void Init()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    window->SetClearColor(Color::light_blue);
+
     UpdateProjectionMatrix();
     window->SetFramebufferSizeChangeCallback([&](int32 width, int32 height) -> void {
         glViewport(0, 0, width, height);
@@ -72,7 +74,7 @@ void Terminate()
 
 void Update()
 {
-    window->BeginFrame(Color::light_blue);
+    window->BeginFrame();
     // ImGui::ShowDemoWindow();
 
     ImGuiIO& io = ImGui::GetIO();
