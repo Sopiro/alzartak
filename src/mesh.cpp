@@ -3,7 +3,7 @@
 namespace alzartak
 {
 
-Mesh::Mesh(std::span<Vertex> vertices, std::span<int32> indices)
+Mesh::Mesh(std::span<const Vertex> vertices, std::span<const int32> indices)
     : num_vertices{ vertices.size() }
     , num_indices{ indices.size() }
 {

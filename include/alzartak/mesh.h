@@ -17,7 +17,7 @@ struct Vertex
 class Mesh : NonCopyable
 {
 public:
-    Mesh(std::span<Vertex> vertices, std::span<int32> indices);
+    Mesh(std::span<const Vertex> vertices, std::span<const int32> indices);
     ~Mesh() noexcept;
 
     void Draw(GLenum draw_mode = GL_TRIANGLES) const;
