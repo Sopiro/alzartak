@@ -44,6 +44,9 @@ void Init()
     camera_2d = new Camera2D;
     camera_3d = new Camera3D;
 
+    // Enable depth test
+    glEnable(GL_DEPTH_TEST);
+
     // Enable culling
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
