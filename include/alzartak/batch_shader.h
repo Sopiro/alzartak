@@ -9,8 +9,7 @@ namespace alzartak
 class BatchShader : public Shader
 {
 public:
-    static std::unique_ptr<BatchShader> Create();
-
+    BatchShader();
     ~BatchShader() = default;
 
     const Mat4& GetViewMatrix() const;
@@ -20,16 +19,9 @@ public:
     void SetProjectionMatrix(const Mat4& proj_matrix);
 
 private:
-    BatchShader();
-
     Mat4 view_matrix{ identity };
     Mat4 proj_matrix{ identity };
 };
-
-inline std::unique_ptr<BatchShader> BatchShader::Create()
-{
-    return std::unique_ptr<BatchShader>(new BatchShader);
-}
 
 inline const Mat4& BatchShader::GetViewMatrix() const
 {

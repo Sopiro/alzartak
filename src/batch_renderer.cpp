@@ -8,9 +8,8 @@ BatchRenderer::BatchRenderer()
     : point_count{ 0 }
     , line_count{ 0 }
     , triangle_count{ 0 }
+    , shader{}
 {
-    shader = BatchShader::Create();
-
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &pVBO);
     glGenBuffers(1, &cVBO);
@@ -52,7 +51,7 @@ BatchRenderer::~BatchRenderer()
 
 void BatchRenderer::FlushPoints()
 {
-    shader->Use();
+    shader.Use();
 
     glBindVertexArray(VAO);
     {
@@ -71,7 +70,7 @@ void BatchRenderer::FlushPoints()
 
 void BatchRenderer::FlushLines()
 {
-    shader->Use();
+    shader.Use();
 
     glBindVertexArray(VAO);
     {
@@ -90,7 +89,7 @@ void BatchRenderer::FlushLines()
 
 void BatchRenderer::FlushTriangles()
 {
-    shader->Use();
+    shader.Use();
 
     glBindVertexArray(VAO);
     {

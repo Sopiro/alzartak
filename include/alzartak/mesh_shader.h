@@ -9,22 +9,13 @@ namespace alzartak
 class MeshShader : public Shader
 {
 public:
-    static std::unique_ptr<MeshShader> Create();
-
+    MeshShader();
     ~MeshShader() = default;
 
     void SetModelMatrix(const Mat4& m);
     void SetViewMatrix(const Mat4& v);
     void SetProjectionMatrix(const Mat4& p);
-
-private:
-    MeshShader();
 };
-
-inline std::unique_ptr<MeshShader> MeshShader::Create()
-{
-    return std::unique_ptr<MeshShader>(new MeshShader);
-}
 
 inline void MeshShader::SetModelMatrix(const Mat4& m)
 {

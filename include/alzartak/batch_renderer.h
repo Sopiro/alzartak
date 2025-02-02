@@ -73,7 +73,7 @@ private:
     std::array<Vec4, max_vertex_count> triangle_colors;
     int32 triangle_count;
 
-    std::unique_ptr<BatchShader> shader;
+    BatchShader shader;
 
     GLuint VAO;
     GLuint pVBO; // position buffer
@@ -103,14 +103,14 @@ inline void BatchRenderer::FlushAll()
 
 inline void BatchRenderer::SetProjectionMatrix(const Mat4& proj_matrix)
 {
-    shader->Use();
-    shader->SetProjectionMatrix(proj_matrix);
+    shader.Use();
+    shader.SetProjectionMatrix(proj_matrix);
 }
 
 inline void BatchRenderer::SetViewMatrix(const Mat4& view_matrix)
 {
-    shader->Use();
-    shader->SetViewMatrix(view_matrix);
+    shader.Use();
+    shader.SetViewMatrix(view_matrix);
 }
 
 inline void BatchRenderer::DrawPoint(const Vertex& v)
@@ -278,13 +278,13 @@ inline Point3 BatchRenderer::Pick(const Point2& screen_pos) const
     Vec4 ndc_pos((2 * screen_pos.x) / window_size.x - 1, 1 - (2 * screen_pos.y) / window_size.y, -1, 1);
 
     // Camera space position
-    Vec4 view_pos = Mul(shader->GetProjectionMatrix().GetInverse(), ndc_pos);
+    Vec4 view_pos = Mul(shader.GetProjectionMatrix().GetInverse(), ndc_pos);
 
     // Re-stratching z and set w to 1 so that it can be interpreted as a point
     view_pos.z /= view_pos.w;
     view_pos.w = 1;
 
-    Vec4 world_pos = Mul(shader->GetViewMatrix().GetInverse(), view_pos);
+    Vec4 world_pos = Mul(shader.GetViewMatrix().GetInverse(), view_pos);
 
     return Point3(world_pos.x, world_pos.y, world_pos.z);
 }

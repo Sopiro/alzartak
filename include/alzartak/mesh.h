@@ -17,6 +17,7 @@ struct Vertex
 class Mesh : NonCopyable
 {
 public:
+    Mesh() = default;
     Mesh(std::span<const Vertex> vertices, std::span<const int32> indices);
     ~Mesh() noexcept;
 
