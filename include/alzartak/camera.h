@@ -71,9 +71,11 @@ struct Camera3D
     float sensitivity = 0.1f;
     float damping = 10.0f;
 
-    void UpdateInput(float dt)
+    bool UpdateInput(float dt)
     {
         Window* window = Window::Get();
+
+        bool moved = false;
 
         if (!ImGui::GetIO().WantCaptureMouse && Input::IsMousePressed(GLFW_MOUSE_BUTTON_LEFT))
             window->SetCursorHidden(true);
@@ -94,6 +96,8 @@ struct Camera3D
             Point2 ma = Input::GetMouseAcceleration();
             rotation.y -= ma.x * DegToRad(sensitivity);
             rotation.x -= ma.y * DegToRad(sensitivity);
+
+            moved |= (ma != Vec2::zero);
         }
 
         // Neck constraints
@@ -108,11 +112,15 @@ struct Camera3D
         velocity.z += speed * (accel.x * -sin + accel.z * cos);
         velocity.y += speed * accel.y;
 
+        moved |= (velocity != Vec3::zero);
+
         // Integrate position
         position += velocity * dt;
 
         // Apply damping
         velocity *= std::exp(-damping * dt);
+
+        return moved;
     }
 
     Mat4 GetCameraMatrix() const
