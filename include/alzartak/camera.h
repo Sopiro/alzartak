@@ -91,6 +91,8 @@ struct Camera3D
         if (Input::IsKeyDown(GLFW_KEY_SPACE)) accel.y++;
         if (Input::IsKeyDown(GLFW_KEY_LEFT_CONTROL) || Input::IsKeyDown(GLFW_KEY_C)) accel.y--;
 
+        accel.Normalize();
+
         if (window->GetCursorHidden())
         {
             Point2 ma = Input::GetMouseAcceleration();
