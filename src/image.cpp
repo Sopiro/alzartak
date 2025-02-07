@@ -104,6 +104,13 @@ Image4 ReadImage4(const std::filesystem::path& filename, bool non_color)
             image[i][3] = Float(std::fmax(0, data[STBI_rgb_alpha * i + 3]));
         }
     }
+    else
+    {
+        for (int32 i = 0; i < width * height; ++i)
+        {
+            image[i][3] = 1;
+        }
+    }
 
     stbi_image_free(data);
     return image;
