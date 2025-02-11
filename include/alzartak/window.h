@@ -19,6 +19,7 @@ public:
     void SetCursorHidden(bool hidden);
 
     bool ShouldClose() const;
+    void PollEvents() const;
     void BeginFrame(uint32 mask = (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)) const;
     void EndFrame() const;
 
@@ -281,10 +282,13 @@ inline bool Window::ShouldClose() const
     return glfwWindowShouldClose(glfw_window);
 }
 
-inline void Window::BeginFrame(uint32 mask) const
+inline void Window::PollEvents() const
 {
     glfwPollEvents();
+}
 
+inline void Window::BeginFrame(uint32 mask) const
+{
     // Begin ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();

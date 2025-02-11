@@ -72,8 +72,9 @@ void Terminate()
     delete renderer;
 }
 
-void Update()
+void Update(Float dt)
 {
+    window->PollEvents();
     window->BeginFrame();
     // ImGui::ShowDemoWindow();
 
@@ -100,7 +101,7 @@ void Update()
         }
         else
         {
-            camera_3d->UpdateInput(delta_time);
+            camera_3d->UpdateInput(dt);
             renderer->SetViewMatrix(camera_3d->GetCameraMatrix());
         }
     }
@@ -147,9 +148,9 @@ int main()
         last_time = current_time;
 
         delta_time += elapsed_time;
-        if (delta_time > target_frame_time)
+        while (delta_time > target_frame_time)
         {
-            Update();
+            Update(target_frame_time);
             delta_time -= target_frame_time;
         }
     }

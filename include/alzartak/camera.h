@@ -68,7 +68,7 @@ struct Camera3D
 
     Vec3 velocity{ 0 };
     float speed = 0.2f;
-    float sensitivity = 0.1f;
+    float sensitivity = 10.0f;
     float damping = 10.0f;
 
     bool UpdateInput(float dt)
@@ -96,8 +96,8 @@ struct Camera3D
         if (window->GetCursorHidden())
         {
             Point2 ma = Input::GetMouseAcceleration();
-            rotation.y -= ma.x * DegToRad(sensitivity);
-            rotation.x -= ma.y * DegToRad(sensitivity);
+            rotation.y -= ma.x * DegToRad(sensitivity) * dt;
+            rotation.x -= ma.y * DegToRad(sensitivity) * dt;
 
             moved |= (ma != Vec2::zero);
         }
