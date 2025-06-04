@@ -27,12 +27,6 @@ struct Image
         data = std::make_unique<T[]>(width * height);
     }
 
-    Image(const Image& other)
-        : Image(other.width, other.height)
-    {
-        memcpy(data.get(), other.data.get(), width * height * sizeof(T));
-    }
-
     operator bool() const
     {
         return bool(data);

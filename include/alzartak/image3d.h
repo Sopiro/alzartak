@@ -26,12 +26,6 @@ struct Image3D
         data = std::make_unique<T[]>(dim_x * dim_y * dim_z);
     }
 
-    Image3D(const Image3D& other)
-        : Image3D(other.dim_x, other.dim_y, other.dim_z)
-    {
-        memcpy(data.get(), other.data.get(), dim_x * dim_y * dim_z * sizeof(T));
-    }
-
     operator bool() const
     {
         return bool(data);
