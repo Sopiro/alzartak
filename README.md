@@ -1,4 +1,5 @@
 # alzartak
+[![Build library](https://github.com/Sopiro/alzartak/actions/workflows/cmake-build.yml/badge.svg)](https://github.com/Sopiro/alzartak/actions/workflows/cmake-build.yml)  
 
 `alzartak` is a lightweight prototyping library designed for graphics applications.
 
