@@ -13,7 +13,6 @@ namespace alzartak
 
 Image1 ReadImage1(const std::filesystem::path& filename, int32 channel, bool non_color, Image1::Type multiplier)
 {
-    stbi_set_flip_vertically_on_load(true);
     stbi_ldr_to_hdr_gamma(non_color ? 1.0f : 2.2f);
 
     int32 width, height;
@@ -62,7 +61,6 @@ Image1 ReadImage1(const std::filesystem::path& filename, int32 channel, bool non
 
 Image3 ReadImage3(const std::filesystem::path& filename, bool non_color, Image3::Type multiplier)
 {
-    stbi_set_flip_vertically_on_load(true);
     stbi_ldr_to_hdr_gamma(non_color ? 1.0f : 2.2f);
 
     int32 width, height;
@@ -100,7 +98,6 @@ Image3 ReadImage3(const std::filesystem::path& filename, bool non_color, Image3:
 
 Image4 ReadImage4(const std::filesystem::path& filename, bool non_color, Image4::Type multiplier)
 {
-    stbi_set_flip_vertically_on_load(true);
     stbi_ldr_to_hdr_gamma(non_color ? 1.0f : 2.2f);
 
     int32 width, height;
@@ -148,8 +145,6 @@ Image4 ReadImage4(const std::filesystem::path& filename, bool non_color, Image4:
 
 void WriteImage(const Image3& image, const std::filesystem::path& filename, ToneMappingCallback* callback)
 {
-    stbi_flip_vertically_on_write(true);
-
     std::string extension = filename.extension().string();
     if (extension == ".hdr")
     {
@@ -199,8 +194,6 @@ void WriteImage(const Image3& image, const std::filesystem::path& filename, Tone
 
 void WriteImage(const Image1& image, const std::filesystem::path& filename, ToneMappingCallback* callback)
 {
-    stbi_flip_vertically_on_write(true);
-
     std::string extension = filename.extension().string();
     if (extension == ".hdr")
     {

@@ -11,7 +11,6 @@ Image3D1 ReadImage3D(
     const std::filesystem::path& filename, int32 channel, Point3i resolution, bool non_color, Image3D1::Type multiplier
 )
 {
-    stbi_set_flip_vertically_on_load(true);
     stbi_ldr_to_hdr_gamma(non_color ? 1.0f : 2.2f);
 
     int32 dim_x, dim_y, dim_z;
@@ -73,7 +72,6 @@ Image3D1 ReadImage3D(
 
 Image3D3 ReadImage3D(const std::filesystem::path& filename, Point3i resolution, bool non_color, Image3D3::Type multiplier)
 {
-    stbi_set_flip_vertically_on_load(true);
     stbi_ldr_to_hdr_gamma(non_color ? 1.0f : 2.2f);
 
     int32 dim_x, dim_y, dim_z;
@@ -124,8 +122,6 @@ Image3D3 ReadImage3D(const std::filesystem::path& filename, Point3i resolution, 
 
 void WriteImage3D(const Image3D1& image, const std::filesystem::path& filename)
 {
-    stbi_flip_vertically_on_write(true);
-
     std::string extension = filename.extension().string();
 
     if (extension == ".hdr")
@@ -141,8 +137,6 @@ void WriteImage3D(const Image3D1& image, const std::filesystem::path& filename)
 
 void WriteImage3D(const Image3D3& image, const std::filesystem::path& filename)
 {
-    stbi_flip_vertically_on_write(true);
-
     std::string extension = filename.extension().string();
 
     if (extension == ".hdr")
