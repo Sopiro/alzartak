@@ -113,7 +113,7 @@ inline T& ThreadLocal<T>::Get()
 
     int32 step = 1;
     int32 tries = 0;
-    BulbitNotUsed(tries);
+    WakNotUsed(tries);
 
     mutex.lock_shared();
     while (true)

@@ -1,7 +1,6 @@
 include(FetchContent)
 
 # external dependencies
-
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # wak
@@ -37,12 +36,11 @@ endif()
 # add_subdirectory(${glfw_SOURCE_DIR} ${glfw_BINARY_DIR})
 # message(${glfw_SOURCE_DIR})
 
-
 # stb
 FetchContent_Declare(
     stb
     GIT_REPOSITORY https://github.com/nothings/stb.git
-    GIT_TAG master
+    GIT_TAG ae721c50eaf761660b4f90cc590453cdb0c2acd0
 )
 
 FetchContent_MakeAvailable(stb)
