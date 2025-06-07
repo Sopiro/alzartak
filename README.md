@@ -73,6 +73,7 @@ int main()
 ```
 
 ## Dependencies
+- [wak](https://github.com/Sopiro/wak): wak is a simple game math library
 - [GLAD](https://github.com/Dav1dde/glad): Multi-Language Vulkan/GL/GLES/EGL/GLX/WGL Loader-Generator based on the official specs.
 - [GLFW](https://github.com/glfw/glfw): A multi-platform library for OpenGL, OpenGL ES, Vulkan, window and input.
 - [ImGui](https://github.com/ocornut/imgui): Bloat-free Graphical User interface for C++ with minimal dependencies.
