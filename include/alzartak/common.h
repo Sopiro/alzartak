@@ -15,10 +15,16 @@
 #include <imgui_impl_opengl3.h>
 
 #include <array>
+#include <condition_variable>
+#include <filesystem>
 #include <format>
 #include <functional>
+#include <mutex>
 #include <numeric>
+#include <optional>
+#include <shared_mutex>
 #include <span>
+#include <thread>
 #include <unordered_map>
 
 #include "wak/bounding_box.h"

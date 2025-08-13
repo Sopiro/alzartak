@@ -1,7 +1,5 @@
 #pragma once
 
-#include "common.h"
-#include "input.h"
 #include "window.h"
 
 namespace alzartak

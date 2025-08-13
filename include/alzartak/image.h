@@ -1,9 +1,6 @@
 #pragma once
 
 #include "color.h"
-#include "math.h"
-
-#include <filesystem>
 
 namespace alzartak
 {
