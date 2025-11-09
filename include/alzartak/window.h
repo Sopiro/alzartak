@@ -294,7 +294,6 @@ inline void Window::BeginFrame(uint32 mask) const
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-    ImGui::DockSpaceOverViewport();
 
     glClear(mask);
 }
