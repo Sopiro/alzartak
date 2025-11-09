@@ -7,7 +7,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 FetchContent_Declare(
     wak
     GIT_REPOSITORY https://github.com/Sopiro/wak.git
-    GIT_TAG master
+    GIT_TAG v1.1.0
 )
 
 FetchContent_MakeAvailable(wak)
@@ -36,20 +36,11 @@ endif()
 # add_subdirectory(${glfw_SOURCE_DIR} ${glfw_BINARY_DIR})
 # message(${glfw_SOURCE_DIR})
 
-# stb
-FetchContent_Declare(
-    stb
-    GIT_REPOSITORY https://github.com/nothings/stb.git
-    GIT_TAG ae721c50eaf761660b4f90cc590453cdb0c2acd0
-)
-
-FetchContent_MakeAvailable(stb)
-
 # imgui
 FetchContent_Declare(
     imgui
     GIT_REPOSITORY https://github.com/ocornut/imgui.git
-    GIT_TAG v1.91.0
+    GIT_TAG v1.92.4-docking
 )
 FetchContent_Populate(imgui)
 
@@ -67,7 +58,6 @@ add_library(imgui ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES}
 target_include_directories(imgui PUBLIC
     ${imgui_SOURCE_DIR}
     ${imgui_SOURCE_DIR}/backends
-    ${stb_SOURCE_DIR}
 )
 
 set_target_properties(imgui PROPERTIES

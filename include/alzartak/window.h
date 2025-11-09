@@ -198,7 +198,8 @@ inline Window::Window(int32 width, int32 height, const char* title)
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    // ImGuiIO& io = ImGui::GetIO();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
     // ImGui::StyleColorsClassic();
     // ImGui::StyleColorsLight();
@@ -293,6 +294,7 @@ inline void Window::BeginFrame(uint32 mask) const
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
+    ImGui::DockSpaceOverViewport();
 
     glClear(mask);
 }

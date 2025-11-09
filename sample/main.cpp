@@ -76,7 +76,6 @@ void Update(Float dt)
 {
     window->PollEvents();
     window->BeginFrame();
-    // ImGui::ShowDemoWindow();
 
     ImGuiIO& io = ImGui::GetIO();
 

@@ -1,6 +1,6 @@
 #include "alzartak/texture.h"
-#include "alzartak/image.h"
 #include "stb_image.h"
+#include "wak/image.h"
 
 namespace alzartak
 {
