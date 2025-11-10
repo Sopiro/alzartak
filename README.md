@@ -45,8 +45,10 @@ int main()
     using namespace alzartak;
 
     Window* window = Window::Init(1280, 720, "alzartak");
-    Renderer renderer;
+    BatchRenderer renderer;
     Camera2D camera;
+
+    window->SetClearColor(Color::light_blue);
 
     const float scale = 100.0f;
     Point2 extents = window->GetWindowSize();
@@ -57,14 +59,15 @@ int main()
 
     while (!window->ShouldClose())
     {
-        window->BeginFrame(Color::light_blue);
+        window->PollEvents();
+        window->BeginFrame();
 
         camera.UpdateInput(scale);
 
         renderer.SetViewMatrix(camera.GetCameraMatrix());
         renderer.DrawLine({ 0, 0 }, { 1, 1 });
         renderer.FlushAll();
-        
+
         window->EndFrame();
     }
 

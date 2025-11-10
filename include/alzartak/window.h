@@ -27,6 +27,7 @@ public:
 
     static Window* Get();
     static Window* Init(int32 width, int32 height, const char* title);
+    static void Terminate();
 
 private:
     Window(int32 width, int32 height, const char* title);
@@ -61,6 +62,16 @@ inline Window* Window::Init(int32 width, int32 height, const char* title)
 
     window = std::unique_ptr<Window>(new Window(width, height, title));
     return window.get();
+}
+
+inline void Window::Terminate()
+{
+    if (!window)
+    {
+        return;
+    }
+
+    window.reset();
 }
 
 inline void Window::OnFramebufferSizeChange(GLFWwindow* glfw_window, int32 width, int32 height)
