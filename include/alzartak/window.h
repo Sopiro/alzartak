@@ -198,8 +198,7 @@ inline Window::Window(int32 width, int32 height, const char* title)
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    // ImGuiIO& io = ImGui::GetIO();
 
     // ImGui::StyleColorsClassic();
     // ImGui::StyleColorsLight();
